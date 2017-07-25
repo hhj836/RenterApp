@@ -1,0 +1,118 @@
+# This is a configuration file for ProGuard.
+# http://proguard.sourceforge.net/index.html#manual/usage.html
+
+-dontusemixedcaseclassnames
+-dontskipnonpubliclibraryclasses
+-verbose
+# Optimization is turned off by default. Dex does not like code run
+# through the ProGuard optimize and preverify steps (and performs some
+# of these optimizations on its own).
+#优化类文件
+-dontoptimize
+-dontpreverify
+# Note that if you want to enable optimization, you cannot just
+# include optimization flags in your own project configuration file;
+# instead you will need to point to the
+# "proguard-android-optimize.txt" file instead of this one from your
+# project.properties file.
+ # 混淆时所采用的算法
+-optimizations !code/simplification/arithmetic,!field/*,!class/merging/*
+
+#-keepattributes *Annotation*,Signature,Exceptions,InnerClasses
+-keepattributes Exceptions,InnerClasses,Signature,Deprecated,SourceFile,LineNumberTable,*Annotation*,EnclosingMethod
+#http://bbs.umeng.com/thread-7454-1-1.html
+#-keepattributes SourceFile,LineNumberTable
+
+-keep public class com.google.vending.licensing.ILicensingService
+-keep public class com.android.vending.licensing.ILicensingService
+# 保持哪些类不被混淆
+-keep public class * extends android.app.Fragment
+-keep public class * extends android.app.Activity
+-keep public class * extends android.app.Application
+-keep public class * extends android.app.Service
+-keep public class * extends android.content.BroadcastReceiver
+-keep public class * extends android.content.ContentProvider
+-keep public class * extends android.app.backup.BackupAgentHelper
+-keep public class * extends android.preference.Preference
+-keep public class com.android.vending.licensing.ILicensingService
+-keep public class com.xtremeprog.sdk.ble.BleService
+-keep public class com.peach.utils.SmileUtils
+-keep class com.lsjwzh.widget.recyclerviewpager.**
+-dontwarn com.lsjwzh.widget.recyclerviewpager.**
+#如果有引用v4包可以添加下面这行
+-keep public class * extends android.support.v4.app.Fragment
+#小米推送
+-keep class com.peach.receiver.MiPushReceiver {*;}
+
+# For native methods, see http://proguard.sourceforge.net/manual/examples.html#native
+-keepclasseswithmembernames class * {
+    native <methods>;
+}
+# keep setters in Views so that animations can still work.
+# see http://proguard.sourceforge.net/manual/examples.html#beans
+-keepclassmembers public class * extends android.view.View {
+   void set*(***);
+   *** get*();
+}
+#-keepclassmembers public class com.peach.app.view.VoiceDrawView
+# We want to keep methods in Activity that could be used in the XML attribute onClick
+#保持所有类里成员不被删除
+-keepclassmembers class * extends android.support.v4.app.Fragment{
+   <fields>;
+}
+-keepclassmembers class * extends  android.app.Activity{
+    <fields>;
+}
+-keepclassmembers class * {
+public void setContentView(***);
+}
+# For enumeration classes, see http://proguard.sourceforge.net/manual/examples.html#enumerations
+-keepclassmembers enum * {
+    **[] $VALUES;
+    public *;
+}
+
+-keep class * implements android.os.Parcelable {
+  public static final android.os.Parcelable$Creator *;
+}
+
+-keepclassmembers class **.R$* {
+    public static <fields>;
+}
+
+# The support library contains references to newer platform versions.
+# Don't warn about those in case this app is linking against an older
+# platform version.  We know about them, and they are safe.
+-dontwarn android.support.**
+-dontwarn com.google.gson.**
+
+-dontwarn
+-ignorewarnings
+
+-keep class * extends java.lang.annotation.Annotation { *; }
+
+  
+-keep public class * implements java.io.Serializable {  
+    *;
+}  
+  
+-keepclassmembers class * implements java.io.Serializable {  
+    static final long serialVersionUID;  
+    private static final java.io.ObjectStreamField[] serialPersistentFields;  
+    private void writeObject(java.io.ObjectOutputStream);  
+    private void readObject(java.io.ObjectInputStream);  
+    java.lang.Object writeReplace();  
+    java.lang.Object readResolve();  
+}  
+
+
+-keepclassmembers class * {
+   public <init>(org.json.JSONObject);
+}
+
+-keep public class com.peach.app.R$*{
+public static final int *;
+}
+-keepclassmembers class * {
+public void onEventMainThread(***);
+}

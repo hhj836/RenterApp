@@ -1,4 +1,8 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+def releaseTime() {
+    return new Date().format("MMdd", TimeZone.getTimeZone("UTC"))
+}
 
 android {
     compileSdkVersion 25
@@ -6,19 +10,86 @@ android {
     defaultConfig {
         applicationId "com.chikai.renterapp"
         minSdkVersion 21
-        targetSdkVersion 25
+        targetSdkVersion 21
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        //突破65535限制
+        multiDexEnabled true
     }
+    signingConfigs {
+    release {
+        lintOptions {
+            disable 'MissingTranslation'
+        }
+        storeFile file('keystore/')
+        storePassword "atb2015"
+        keyAlias "peach"
+        keyPassword "atb2015"
+        v2SigningEnabled false
+    }
+}
     buildTypes {
         release {
+            buildConfigField "String", "HOST", "\"inner1.inpeach.com\""
+            buildConfigField "int", "PORT", "10079"
+            //混淆
+            minifyEnabled true
+            //是否zip优化
+            zipAlignEnabled true
+            //是否移除无用的资源
+            shrinkResources true
+
+            proguardFiles 'proguard-android.txt'
+            signingConfig signingConfigs.release
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def outputFile = output.outputFile
+                    def fileName
+                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                        if (variant.buildType.name.equals('release')) {
+                            fileName = "Renter_v${defaultConfig.versionName}_${releaseTime()}.apk"
+                        } else if (variant.buildType.name.equals('debug')) {
+                            fileName = "Renter_v${defaultConfig.versionName}_${releaseTime()}debug.apk"
+                        }
+                        output.outputFile = new File(outputFile.parent, fileName)
+                    }
+                }
+            }
+        }
+        debug {
+            buildConfigField "String", "HOST", "\"inner1.inpeach.com\""
+            buildConfigField "int", "PORT", "10079"
+            applicationIdSuffix ".debug"//包名后面增加后缀
+            //混淆
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //是否zip优化
+            zipAlignEnabled true
+            //是否移除无用的资源
+            shrinkResources false
+
+            signingConfig signingConfigs.debug
+            proguardFiles 'proguard-android.txt'
+
         }
     }
 }
+repositories {
 
+    jcenter()
+
+}
+buildscript {
+    System.properties['com.android.build.gradle.overrideVersionCheck'] = 'true'
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+
+    }
+
+}
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -26,4 +97,10 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.3.1'
     testCompile 'junit:junit:4.12'
+
+    //view框架
+    compile 'com.jakewharton:butterknife:8.1.0'
+    apt 'com.jakewharton:butterknife-compiler:8.0.1'
+
+    compile 'com.mcxiaoke.volley:library:1.0.19'
 }
