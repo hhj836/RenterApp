@@ -26,6 +26,11 @@ public class NetEngine {
         sendGetRequest(context,TestResponseBean.class,onResponseListener,tag,params);
     }
 
+
+
+
+
+
     public static  <T extends BaseResponse> void sendPostRequest(Context context,Class<T> parseClass, final OnResponseListener<T> onResponseListener, String tag, Map<String,Object>...params){
         String url="http://baidu.com";
         Map<String ,String> map=null;
