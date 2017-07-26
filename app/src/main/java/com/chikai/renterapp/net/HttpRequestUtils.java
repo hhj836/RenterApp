@@ -32,14 +32,14 @@ public class HttpRequestUtils {
 
     }
 
-    public static RequestQueue getRequestQueue() {
+    public  RequestQueue getRequestQueue() {
         if (mRequestQueue != null) {
             return mRequestQueue;
         } else {
             throw new IllegalStateException("RequestQueue not initialized");
         }
     }
-    public static void addRequest(GsonRequest request, String tag) {
+    public  void addRequest(GsonRequest request, String tag) {
         request.setTag(tag);
         request.setRetryPolicy(new DefaultRetryPolicy(20*1000, 0,1f));
         getRequestQueue().add(request);

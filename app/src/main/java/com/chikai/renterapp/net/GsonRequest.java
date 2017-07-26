@@ -6,6 +6,7 @@ import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.HttpHeaderParser;
+import com.chikai.renterapp.utils.Json2ObjHelper;
 import com.google.gson.Gson;
 
 import java.io.UnsupportedEncodingException;
@@ -19,7 +20,6 @@ public class GsonRequest<T> extends Request<T> {
 
     private final Response.Listener<T> mListener;
 
-    private Gson mGson;
 
     private Class<T> mClass;
     private Map<String,String> params;
@@ -27,7 +27,6 @@ public class GsonRequest<T> extends Request<T> {
     public GsonRequest(int method, String url, Class<T> clazz, Response.Listener<T> listener,
                        Response.ErrorListener errorListener, Map<String,String>...params) {
         super(method, url, errorListener);
-        mGson = new Gson();
         mClass = clazz;
         mListener = listener;
         if(params.length>0){
@@ -56,7 +55,7 @@ public class GsonRequest<T> extends Request<T> {
         try {
             String jsonString = new String(response.data,
                     HttpHeaderParser.parseCharset(response.headers));
-            return Response.success(mGson.fromJson(jsonString, mClass),
+            return Response.success(Json2ObjHelper.getGson().fromJson(jsonString, mClass),
                     HttpHeaderParser.parseCacheHeaders(response));
         } catch (UnsupportedEncodingException e) {
             return Response.error(new ParseError(e));
