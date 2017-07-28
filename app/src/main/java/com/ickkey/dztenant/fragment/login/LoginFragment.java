@@ -43,7 +43,7 @@ public class LoginFragment extends BaseFragment {
 
     @Override
     public void onBtnRightClick() {
-        start(HomeFragment.newInstance(HomeFragment.class));
+        startWithPop(HomeFragment.newInstance(HomeFragment.class));
     }
 
     @Override
