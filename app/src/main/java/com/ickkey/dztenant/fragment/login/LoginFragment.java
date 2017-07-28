@@ -56,7 +56,7 @@ public class LoginFragment extends BaseFragment {
 
             }
 
-        },MainActivity.class.getSimpleName(),map);
+        },fragment_tag,map);
 
     }
 }

@@ -4,6 +4,7 @@ import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.ickkey.dztenant.RenterApp;
+import com.ickkey.dztenant.utils.ToastUtils;
 
 
 /**
@@ -19,7 +20,7 @@ public class CommonResponseListener<T> implements OnResponseListener<T> {
     @Override
     public void onError(String errorMsg) {
         if(!TextUtils.isEmpty(errorMsg)){
-            Toast.makeText(RenterApp.getInstance(),errorMsg,Toast.LENGTH_SHORT).show();
+            ToastUtils.showShortToast(RenterApp.getInstance(),errorMsg);
         }
 
     }

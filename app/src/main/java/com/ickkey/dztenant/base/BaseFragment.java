@@ -14,7 +14,10 @@ import android.widget.TextView;
 import com.andexert.library.RippleView;
 import com.ickkey.dztenant.R;
 import com.ickkey.dztenant.fragment.home.HomeFragment;
+import com.ickkey.dztenant.net.HttpRequestUtils;
 import com.ickkey.dztenant.utils.ToastUtils;
+
+import java.util.UUID;
 
 import butterknife.ButterKnife;
 
@@ -23,6 +26,9 @@ import butterknife.ButterKnife;
  */
 
 public abstract class BaseFragment extends BaseBackFragment {
+    public final String fragment_tag=getClass().getSimpleName()+ UUID.randomUUID();
+
+
     public static BaseFragment newInstance(Class<? extends  BaseFragment> clazz,Bundle...args) {
 
         BaseFragment fragment = null;
@@ -157,5 +163,6 @@ public abstract class BaseFragment extends BaseBackFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        HttpRequestUtils.getInstance().getRequestQueue().cancelAll(fragment_tag);
     }
 }

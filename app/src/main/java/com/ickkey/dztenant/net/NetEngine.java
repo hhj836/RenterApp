@@ -1,13 +1,16 @@
 package com.ickkey.dztenant.net;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.ickkey.dztenant.R;
 import com.ickkey.dztenant.net.response.BaseResponse;
 import com.ickkey.dztenant.net.response.LoginResponse;
 import com.ickkey.dztenant.utils.Json2ObjHelper;
 import com.ickkey.dztenant.utils.LogUtil;
+import com.ickkey.dztenant.utils.NetUtil;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -27,6 +30,10 @@ public class NetEngine {
     }
 
     public static  <T extends BaseResponse> void sendPostRequest(String url,Context context, Class<T> parseClass, final OnResponseListener<T> onResponseListener, String tag, Map<String,Object>...params){
+        if(!NetUtil.checkNetWork(context)){
+            onResponseListener.onError(context.getString(R.string.no_net));
+            return;
+        }
         String requestUrl=url;
         if(params.length>0){
             requestUrl+="?";
@@ -49,6 +56,10 @@ public class NetEngine {
 
     }
     public static <T extends BaseResponse> void sendGetRequest(String url,Context context,Class<T> parseClass, final OnResponseListener<T> onResponseListener, String tag, Map<String,Object>...params){
+        if(!NetUtil.checkNetWork(context)){
+            onResponseListener.onError(context.getString(R.string.no_net));
+            return;
+        }
         String requestUrl=url;
         if(params.length>0){
             requestUrl+="?";
