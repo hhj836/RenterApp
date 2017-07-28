@@ -19,6 +19,7 @@ import java.util.Map;
 
 import butterknife.OnClick;
 import me.yokeyword.fragmentation.ISupportFragment;
+import me.yokeyword.fragmentation.anim.FragmentAnimator;
 
 
 /**
@@ -41,15 +42,14 @@ public class LoginFragment extends BaseFragment {
     }
 
     @Override
+    public void onBtnRightClick() {
+        start(HomeFragment.newInstance(HomeFragment.class));
+    }
+
+    @Override
     public void initView() {
         setTitle("登录");
         setBtnRightText(getString(R.string.text_main_pager));
-        setOnBtnRightClickListener(new RippleView.OnRippleCompleteListener() {
-            @Override
-            public void onComplete(RippleView rippleView) {
-                startWithPop(HomeFragment.newInstance(HomeFragment.class));
-            }
-        });
         btn_left_base.setVisibility(View.INVISIBLE);
         Map<String,Object> map=new HashMap<>();
         map.put("username","10086");
@@ -65,4 +65,5 @@ public class LoginFragment extends BaseFragment {
 
 
     }
+
 }

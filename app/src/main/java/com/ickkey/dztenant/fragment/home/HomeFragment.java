@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import com.andexert.library.RippleView;
 import com.ickkey.dztenant.R;
 import com.ickkey.dztenant.base.BaseFragment;
 import com.ickkey.dztenant.base.BaseMainFragment;
+import com.ickkey.dztenant.fragment.login.RegisterFragment;
 import com.ickkey.dztenant.view.BottomBar;
 import com.ickkey.dztenant.view.BottomBarTab;
 

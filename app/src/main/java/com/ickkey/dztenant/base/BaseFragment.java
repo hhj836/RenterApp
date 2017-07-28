@@ -66,7 +66,7 @@ public abstract class BaseFragment extends BaseBackFragment {
     }
     public RippleView btn_left_base;
     public RippleView btn_right_base;
-    TextView tv_title_base;
+    public TextView tv_title_base;
     TextView tv_left_base;
     TextView   tv_right_base;
     RelativeLayout rl_title_content_base;
@@ -110,7 +110,17 @@ public abstract class BaseFragment extends BaseBackFragment {
         }else {
             setTitleGone();
         }
-
+        btn_right_base.setOnRippleCompleteListener(new RippleView.OnRippleCompleteListener() {
+            @Override
+            public void onComplete(RippleView rippleView) {
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        onBtnRightClick();
+                    }
+                },getResources().getInteger(R.integer.rippleDuration));
+            }
+        });
         initView();
         return attachToSwipeBack(view);
 
@@ -122,6 +132,13 @@ public abstract class BaseFragment extends BaseBackFragment {
         tv_right_base.setText(s);
         return  BaseFragment.this;
 
+
+    }
+
+    /**
+     * 右按钮事件，防止闪烁
+     */
+    public  void  onBtnRightClick(){
 
     }
     public BaseFragment setBtnRightImgRes(int res){
@@ -144,15 +161,16 @@ public abstract class BaseFragment extends BaseBackFragment {
         return  BaseFragment.this;
 
     }
-    public BaseFragment setOnBtnLeftClickListener(RippleView.OnRippleCompleteListener onClickListener){
+    public BaseFragment setOnBtnLeftClickListener(RippleView.OnRippleCompleteListener onRippleCompleteListener){
         btn_left_base.setVisibility(View.VISIBLE);
-        btn_left_base.setOnRippleCompleteListener(onClickListener);
+        btn_left_base.setOnRippleCompleteListener(onRippleCompleteListener);
         return  BaseFragment.this;
 
     }
-    public BaseFragment setOnBtnRightClickListener(RippleView.OnRippleCompleteListener onClickListener){
+    @Deprecated
+    public BaseFragment setOnBtnRightClickListener(RippleView.OnRippleCompleteListener onRippleCompleteListener){
         btn_right_base.setVisibility(View.VISIBLE);
-        btn_right_base.setOnRippleCompleteListener(onClickListener);
+        btn_right_base.setOnRippleCompleteListener(onRippleCompleteListener);
         return  BaseFragment.this;
 
     }
@@ -174,7 +192,7 @@ public abstract class BaseFragment extends BaseBackFragment {
     @Override
     public void onDestroyView() {
         HttpRequestUtils.getInstance().getRequestQueue().cancelAll(fragment_tag);
-        LogUtil.info(getClass(),"onDestroyView");
+       // LogUtil.info(getClass(),"onDestroyView");
         super.onDestroyView();
 
     }
