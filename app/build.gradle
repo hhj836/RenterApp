@@ -22,17 +22,15 @@ android {
         lintOptions {
             disable 'MissingTranslation'
         }
-        storeFile file('keystore/')
-        storePassword "atb2015"
-        keyAlias "peach"
-        keyPassword "atb2015"
+        storeFile file('keystore/ickkey.keystore')
+        storePassword "com.ickkey"
+        keyAlias "ickkey"
+        keyPassword "com.ickkey"
         v2SigningEnabled false
     }
 }
     buildTypes {
         release {
-            buildConfigField "String", "HOST", "\"inner1.inpeach.com\""
-            buildConfigField "int", "PORT", "10079"
             //混淆
             minifyEnabled true
             //是否zip优化
@@ -58,8 +56,6 @@ android {
             }
         }
         debug {
-            buildConfigField "String", "HOST", "\"inner1.inpeach.com\""
-            buildConfigField "int", "PORT", "10079"
             applicationIdSuffix ".debug"//包名后面增加后缀
             //混淆
             minifyEnabled false
