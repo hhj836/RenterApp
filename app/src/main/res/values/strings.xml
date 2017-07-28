@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">RenterApp</string>
+    <string name="app_name">租客</string>
+    <string name="text_main_pager">主页</string>
+    <string name="text_personal_pager">个人中心</string>
 </resources>

@@ -90,7 +90,7 @@ public void setContentView(***);
 
 -dontwarn
 -ignorewarnings
-
+-keep class * extends android.support.v4.app.FragmentManager{ *; }
 -keep class * extends java.lang.annotation.Annotation { *; }
 
   
