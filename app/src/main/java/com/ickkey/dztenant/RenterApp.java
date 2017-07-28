@@ -1,13 +1,13 @@
 package com.ickkey.dztenant;
 
-import android.app.Application;
+import android.support.multidex.MultiDexApplication;
 
 
 /**
  * Created by Administrator on 2017/7/25.
  */
 
-public class RenterApp extends Application {
+public class RenterApp extends MultiDexApplication {
     public static RenterApp getInstance() {
         return instance;
     }
