@@ -74,7 +74,7 @@ public class LogUtil {
 		switch (currentStage) {
 			case DEVELOP:
 				// 控制台输出
-				Log.i(TAG, clazz.getSimpleName() + ":" + "aotobang--" + msg);
+				Log.i(TAG, clazz.getSimpleName() + ":" + "log--" + msg);
 				break;
 			case DEBUG:
 				// 在应用下面创建目录存放日志
@@ -118,7 +118,7 @@ public class LogUtil {
 		switch (currentStage) {
 			case DEVELOP:
 				// 控制台输出
-				Log.e(TAG, clazz.getSimpleName() + ":" + "aotobang--" + msg);
+				Log.e(TAG, clazz.getSimpleName() + ":" + "log--" + msg);
 				break;
 			case DEBUG:
 				// 在应用下面创建目录存放日志
