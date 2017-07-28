@@ -11,6 +11,7 @@ import com.ickkey.dztenant.utils.LogUtil;
  */
 
 public class RegisterFragment extends BaseFragment {
+
     @Override
     public boolean enableSwipeBack() {
         return true;
@@ -25,5 +26,20 @@ public class RegisterFragment extends BaseFragment {
         setTitle("注册");
 
     }
+    @Override
+    public void onNewBundle(Bundle args) {
+        super.onNewBundle(args);
+        LogUtil.info(getClass(),"onNewBundle");
+    }
+    @Override
+    public void onSupportVisible() {
+        super.onSupportVisible();
+        // todo,当该Fragment对用户可见时
+    }
 
+    @Override
+    public void onSupportInvisible() {
+        super.onSupportInvisible();
+        // todo,当该Fragment对用户不可见时
+    }
 }

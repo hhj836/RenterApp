@@ -3,6 +3,7 @@ package com.ickkey.dztenant.base;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +14,12 @@ import android.widget.TextView;
 
 import com.andexert.library.RippleView;
 import com.ickkey.dztenant.R;
+import com.ickkey.dztenant.RenterApp;
 import com.ickkey.dztenant.fragment.home.HomeFragment;
+import com.ickkey.dztenant.fragment.home.HomeMainFragment;
+import com.ickkey.dztenant.fragment.login.LoginFragment;
 import com.ickkey.dztenant.net.HttpRequestUtils;
+import com.ickkey.dztenant.utils.LogUtil;
 import com.ickkey.dztenant.utils.ToastUtils;
 
 import java.util.UUID;
@@ -23,9 +28,17 @@ import butterknife.ButterKnife;
 
 /**
  * Created by hhj on 2017/7/27.
+ *
  */
 
+/**     //重复fragment解决办法
+ *   if(findFragment(RegisterFragment.class)!=null){
+     RegisterFragment fragment=findFragment(RegisterFragment.class);
+     fragment.getFragmentManager().beginTransaction().remove(fragment).commitAllowingStateLoss();
+     }
+ */
 public abstract class BaseFragment extends BaseBackFragment {
+    public Handler handler= RenterApp.getInstance().getMainThreadHandler();
     public final String fragment_tag=getClass().getSimpleName()+ UUID.randomUUID();
 
     public static BaseFragment newInstance(Class<? extends  BaseFragment> clazz,Bundle...args) {
@@ -68,7 +81,7 @@ public abstract class BaseFragment extends BaseBackFragment {
         btn_left_base.setOnRippleCompleteListener(new RippleView.OnRippleCompleteListener() {
             @Override
             public void onComplete(RippleView rippleView) {
-                _mActivity.onBackPressed();
+               pop();
             }
 
         });
@@ -99,7 +112,6 @@ public abstract class BaseFragment extends BaseBackFragment {
         }
 
         initView();
-
         return attachToSwipeBack(view);
 
 
@@ -162,6 +174,7 @@ public abstract class BaseFragment extends BaseBackFragment {
     @Override
     public void onDestroyView() {
         HttpRequestUtils.getInstance().getRequestQueue().cancelAll(fragment_tag);
+        LogUtil.info(getClass(),"onDestroyView");
         super.onDestroyView();
 
     }

@@ -1,5 +1,7 @@
 package com.ickkey.dztenant;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.support.multidex.MultiDexApplication;
 
 
@@ -8,6 +10,12 @@ import android.support.multidex.MultiDexApplication;
  */
 
 public class RenterApp extends MultiDexApplication {
+    public Handler getMainThreadHandler() {
+        return handler;
+    }
+
+
+    private   Handler handler=new Handler(Looper.getMainLooper());
     public static RenterApp getInstance() {
         return instance;
     }

@@ -2,6 +2,8 @@ package com.ickkey.dztenant.base;
 
 import android.widget.Toast;
 
+import com.ickkey.dztenant.utils.ToastUtils;
+
 
 public abstract class BaseMainFragment extends BaseFragment {
     // 再点一次退出程序时间设置
@@ -20,7 +22,7 @@ public abstract class BaseMainFragment extends BaseFragment {
             _mActivity.finish();
         } else {
             TOUCH_TIME = System.currentTimeMillis();
-            Toast.makeText(_mActivity, "再按一次离开应用", Toast.LENGTH_SHORT).show();
+            ToastUtils.showShortToast(_mActivity,"再按一次离开应用");
         }
         return true;
     }

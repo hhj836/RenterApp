@@ -19,7 +19,6 @@ public class MainActivity extends SupportActivity {
             loadRootFragment(R.id.fl_container, LoginFragment.newInstance(LoginFragment.class));
         }
 
-
     }
 
 
