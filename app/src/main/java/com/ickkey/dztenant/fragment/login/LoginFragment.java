@@ -12,6 +12,7 @@ import com.ickkey.dztenant.fragment.home.HomeFragment;
 import com.ickkey.dztenant.fragment.home.HomeMainFragment;
 import com.ickkey.dztenant.net.CommonResponseListener;
 import com.ickkey.dztenant.net.NetEngine;
+import com.ickkey.dztenant.net.request.LoginReq;
 import com.ickkey.dztenant.net.response.LoginResponse;
 
 import java.util.HashMap;
@@ -51,17 +52,17 @@ public class LoginFragment extends BaseFragment {
         setTitle("登录");
         setBtnRightText(getString(R.string.text_main_pager));
         btn_left_base.setVisibility(View.INVISIBLE);
-        Map<String,Object> map=new HashMap<>();
-        map.put("username","10086");
-        map.put("password","10086");
-        map.put("captcha","10086");
-        NetEngine.sendLoginRequest(_mActivity, new CommonResponseListener<LoginResponse>() {
+        LoginReq req=new LoginReq();
+        req.username="123";
+        req.password="123";
+        req.captcha=0;
+        NetEngine.getInstance().sendLoginRequest(_mActivity, new CommonResponseListener<LoginResponse>() {
             @Override
             public void onSucceed(LoginResponse testResponseBean) {
 
             }
 
-        },fragment_tag,map);
+        },fragment_tag,req);
 
 
     }

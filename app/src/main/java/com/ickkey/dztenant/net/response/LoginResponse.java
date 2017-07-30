@@ -7,4 +7,7 @@ package com.ickkey.dztenant.net.response;
 public class LoginResponse extends BaseResponse{
     public int expire;
     public String token;
+    public String headUrl;
+    public String username;
+    public String userId;
 }
