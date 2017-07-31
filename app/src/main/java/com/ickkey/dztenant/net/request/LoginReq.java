@@ -8,7 +8,6 @@ package com.ickkey.dztenant.net.request;
 
 
 public class LoginReq extends BaseRequest {
-    public String username;
+    public String mobile;
     public String password;
-    public int captcha;
 }

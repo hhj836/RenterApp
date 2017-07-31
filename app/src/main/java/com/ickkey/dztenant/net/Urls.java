@@ -6,5 +6,5 @@ package com.ickkey.dztenant.net;
 
 public interface Urls {
         String BASE_URL="http://ziru.ickkey.com";
-        String LOGIN=BASE_URL+"/sys/login";
+        String LOGIN=BASE_URL+"/api/login";
 }

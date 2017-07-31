@@ -53,9 +53,8 @@ public class LoginFragment extends BaseFragment {
         setBtnRightText(getString(R.string.text_main_pager));
         btn_left_base.setVisibility(View.INVISIBLE);
         LoginReq req=new LoginReq();
-        req.username="123";
+        req.mobile="哈哈";
         req.password="123";
-        req.captcha=0;
         NetEngine.getInstance().sendLoginRequest(_mActivity, new CommonResponseListener<LoginResponse>() {
             @Override
             public void onSucceed(LoginResponse testResponseBean) {

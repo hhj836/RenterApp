@@ -44,10 +44,11 @@ public class BaseNetEngine {
             requestUrl+="?";
             for (Map.Entry<String, Object> entry :paramsMap.entrySet()) {
                 try {
-                    requestUrl+=entry.getKey()+"="+entry.getValue()instanceof String? URLEncoder.encode((String) entry.getValue(),"utf-8"):entry.getValue()+"&";
+                    requestUrl+=entry.getKey()+"="+((entry.getValue()instanceof String)? URLEncoder.encode((String) entry.getValue(),"utf-8"):entry.getValue())+"&";
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
+                LogUtil.info(getClass(),"==="+entry.getValue());
 
             }
             requestUrl=requestUrl.substring(0,requestUrl.length()-1);
@@ -81,7 +82,7 @@ public class BaseNetEngine {
             requestUrl+="?";
             for (Map.Entry<String, Object> entry :paramsMap.entrySet()) {
                 try {
-                    requestUrl+=entry.getKey()+"="+entry.getValue()instanceof String? URLEncoder.encode((String) entry.getValue(),"utf-8"):entry.getValue()+"&";
+                    requestUrl+=entry.getKey()+"="+((entry.getValue()instanceof String)? URLEncoder.encode((String) entry.getValue(),"utf-8"):entry.getValue())+"&";
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
@@ -117,6 +118,9 @@ public class BaseNetEngine {
         }
         Field[] fields = clazz.getDeclaredFields();
         for (Field field : fields) {
+            if(field.getName().equals("shadow$_monitor_")||field.getName().equals("shadow$_klass_")){
+                continue;
+            }
             field.setAccessible(true);
             try {
                 Object value =field.get(requestObj);
