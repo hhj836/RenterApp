@@ -3,9 +3,9 @@ package com.ickkey.dztenant.net;
 import android.content.Context;
 
 import com.ickkey.dztenant.net.request.BaseRequest;
+import com.ickkey.dztenant.net.response.BaseResponse;
+import com.ickkey.dztenant.net.response.GetVerifyResp;
 import com.ickkey.dztenant.net.response.LoginResponse;
-
-import java.util.Map;
 
 /**
  * Created by Administrator on 2017/7/25.
@@ -27,6 +27,28 @@ public class NetEngine extends BaseNetEngine {
         sendPostRequest(Urls.LOGIN,context,LoginResponse.class,onResponseListener,tag,req);
     }
 
-
-
+    /**
+     * 获取验证码
+     */
+    public   void sendGetVerifyRequest(Context context, final OnResponseListener<GetVerifyResp> onResponseListener, String tag, BaseRequest...req){
+        sendPostRequest(Urls.GET_VERIFY,context,GetVerifyResp.class,onResponseListener,tag,req);
+    }
+    /**
+     * 注册
+     */
+    public   void sendRegisterRequest(Context context, final OnResponseListener<BaseResponse> onResponseListener, String tag, BaseRequest...req){
+        sendPostRequest(Urls.REGISTER,context,BaseResponse.class,onResponseListener,tag,req);
+    }
+    /**
+     * 修改密码
+     */
+    public   void sendUpdatePwdRequest(Context context, final OnResponseListener<BaseResponse> onResponseListener, String tag, BaseRequest...req){
+        sendPostRequest(Urls.UPPWD,context,BaseResponse.class,onResponseListener,tag,req);
+    }
+    /**
+     * 修改用户名
+     */
+    public   void sendUpdateUserNameRequest(Context context, final OnResponseListener<BaseResponse> onResponseListener, String tag, BaseRequest...req){
+        sendPostRequest(Urls.UPUSERNAME,context,BaseResponse.class,onResponseListener,tag,req);
+    }
 }

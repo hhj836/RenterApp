@@ -6,6 +6,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.ickkey.dztenant.BuildConfig;
 import com.ickkey.dztenant.R;
+import com.ickkey.dztenant.RenterApp;
 import com.ickkey.dztenant.net.request.BaseRequest;
 import com.ickkey.dztenant.net.response.BaseResponse;
 import com.ickkey.dztenant.utils.LogUtil;
@@ -26,8 +27,7 @@ import java.util.Map;
 
 
 public class BaseNetEngine {
-
-    public   <T extends BaseResponse> void sendPostRequest(String url, Context context, Class<T> parseClass, final OnResponseListener<T> onResponseListener, String tag,  BaseRequest...req){
+    public   <T extends BaseResponse> void sendPostRequest(final String url, final Context context, final Class<T> parseClass, final OnResponseListener<T> onResponseListener, final String tag, final BaseRequest...req){
         if(!NetUtil.checkNetWork(context)){
             onResponseListener.onError(context.getString(R.string.no_net));
             return;
@@ -48,7 +48,7 @@ public class BaseNetEngine {
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
-                LogUtil.info(getClass(),"==="+entry.getValue());
+                LogUtil.info(getClass(),entry.getKey()+"="+entry.getValue());
 
             }
             requestUrl=requestUrl.substring(0,requestUrl.length()-1);
@@ -63,8 +63,8 @@ public class BaseNetEngine {
             }
         },new CommonVolleyErrorListener(context));
         HttpRequestUtils.getInstance().addRequest(request,tag);
-
     }
+
     public  <T extends BaseResponse> void sendGetRequest(String url,Context context,Class<T> parseClass, final OnResponseListener<T> onResponseListener, String tag,  BaseRequest...req){
         if(!NetUtil.checkNetWork(context)){
             onResponseListener.onError(context.getString(R.string.no_net));

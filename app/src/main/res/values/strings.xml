@@ -3,4 +3,20 @@
     <string name="text_main_pager">主页</string>
     <string name="text_personal_pager">个人中心</string>
     <string name="no_net">请检查网络连接</string>
+    <string name="pwd_too_short">密码长度最少6位</string>
+    <string name="pwd_confirm_error">两次密码输入不一致</string>
+    <string name="digits">0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_</string>
+    <!--手势锁-->
+    <string name="create_gesture_default">为了您的门锁安全，请先设置手势密码</string>
+    <string name="create_gesture_correct">首次记录成功，请再次绘制</string>
+    <string name="create_gesture_less_error">至少连接4个点，请重新绘制</string>
+    <string name="create_gesture_confirm_error">与上一次绘制不一致，请重新绘制</string>
+    <string name="create_gesture_confirm_correct">设置成功</string>
+    <string name="create_gesture_reset">重新设置</string>
+    <!-- Gesture login activity -->
+    <string name="gesture_forget_gesture">忘记手势密码</string>
+    <string name="gesture_default">请输入手势密码</string>
+    <string name="gesture_error">手势密码输入错误</string>
+    <string name="gesture_correct">输入正确</string>
+
 </resources>

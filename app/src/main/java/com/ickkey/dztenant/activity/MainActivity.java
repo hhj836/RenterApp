@@ -3,6 +3,7 @@ package com.ickkey.dztenant.activity;
 import android.os.Bundle;
 
 import com.ickkey.dztenant.R;
+import com.ickkey.dztenant.fragment.login.LaunchFragment;
 import com.ickkey.dztenant.fragment.login.LoginFragment;
 
 import me.yokeyword.fragmentation.SupportActivity;
@@ -15,9 +16,7 @@ public class MainActivity extends SupportActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (findFragment(LoginFragment.class) == null) {
-            loadRootFragment(R.id.fl_container, LoginFragment.newInstance(LoginFragment.class));
-        }
+            loadRootFragment(R.id.fl_container, LoginFragment.newInstance(LaunchFragment.class));
 
     }
 

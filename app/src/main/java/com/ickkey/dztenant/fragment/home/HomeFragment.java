@@ -52,15 +52,20 @@ public class HomeFragment extends BaseMainFragment {
             mFragments[MAIN] = firstFragment;
             mFragments[PERSONAL] = findChildFragment(HomePersonalFragment.class);
         }
-    }
+        HomeMainFragment homeMainFragment= (HomeMainFragment) mFragments[MAIN];
+        homeMainFragment.setHomeFragment(HomeFragment.this);
+        HomePersonalFragment homePersonalFragment= (HomePersonalFragment) mFragments[PERSONAL];
+        homePersonalFragment.setHomeFragment(HomeFragment.this);
 
+    }
     @Override
     public void initView() {
-        btn_left_base.setVisibility(View.INVISIBLE);
-        setTitle(getString(R.string.text_main_pager));
+        setTitleGone();
+      /*  btn_left_base.setVisibility(View.INVISIBLE);
+        setTitle(getString(R.string.text_main_pager));*/
         mBottomBar
-                .addItem(new BottomBarTab(_mActivity, R.drawable.ic_account_circle_white_24dp, getString(R.string.text_main_pager)))
-                .addItem(new BottomBarTab(_mActivity, R.drawable.ic_account_circle_white_24dp, getString(R.string.text_personal_pager)));
+                .addItem(new BottomBarTab(_mActivity, R.drawable.mian_icon, getString(R.string.text_main_pager)))
+                .addItem(new BottomBarTab(_mActivity, R.drawable.user_icon, getString(R.string.text_personal_pager)));
         mBottomBar.setOnTabSelectedListener(new BottomBar.OnTabSelectedListener() {
             @Override
             public void onTabSelected(int position, int prePosition) {

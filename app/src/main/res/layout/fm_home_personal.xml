@@ -1,9 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
     android:layout_height="match_parent">
+ <LinearLayout
+     android:orientation="vertical"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content">
+     <RelativeLayout
+         android:id="@+id/rl_update_username"
+         android:background="@android:color/white"
+         android:layout_width="match_parent"
+         android:layout_height="48dp">
+         <TextView
+             android:layout_centerVertical="true"
+             android:layout_marginLeft="20dp"
+             android:text="修改用户名"
+             android:textColor="@color/global_black"
+             android:textSize="14sp"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content" />
+         <TextView
+             android:id="@+id/tv_username"
+             android:layout_centerVertical="true"
+             android:layout_marginRight="20dp"
+             android:layout_alignParentRight="true"
+             android:drawableRight="@drawable/register_arrow"
+             android:textColor="@color/global_tv_color"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content" />
+     </RelativeLayout>
+     <RelativeLayout
+         android:layout_marginTop="1dp"
+         android:id="@+id/rl_update_pwd"
+         android:background="@android:color/white"
+         android:layout_width="match_parent"
+         android:layout_height="48dp">
+         <TextView
+             android:layout_centerVertical="true"
+             android:layout_marginLeft="20dp"
+             android:text="修改登录密码"
+             android:textColor="@color/global_black"
+             android:textSize="14sp"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content" />
+         <TextView
+             android:layout_centerVertical="true"
+             android:layout_marginRight="20dp"
+             android:layout_alignParentRight="true"
+             android:drawableRight="@drawable/register_arrow"
+             android:textColor="@color/global_tv_color"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content" />
+     </RelativeLayout>
+     <RelativeLayout
+         android:layout_marginTop="1dp"
+         android:id="@+id/rl_update_gesture_pwd"
+         android:background="@android:color/white"
+         android:layout_width="match_parent"
+         android:layout_height="48dp">
+         <TextView
+             android:layout_centerVertical="true"
+             android:layout_marginLeft="20dp"
+             android:text="修改手势密码"
+             android:textColor="@color/global_black"
+             android:textSize="14sp"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content" />
+         <TextView
+             android:layout_centerVertical="true"
+             android:layout_marginRight="20dp"
+             android:layout_alignParentRight="true"
+             android:drawableRight="@drawable/register_arrow"
+             android:textColor="@color/global_tv_color"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content" />
+     </RelativeLayout>
+ </LinearLayout>
+
     <TextView
-        android:text="个人中心"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-</LinearLayout>
+        android:layout_marginBottom="30dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/btn_exit"
+        android:gravity="center"
+        android:text="退出登录"
+        android:background="@drawable/exit_btn_bg"
+        android:layout_marginTop="21dp"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        android:layout_width="216dp"
+        android:layout_height="32dp" />
+</RelativeLayout>

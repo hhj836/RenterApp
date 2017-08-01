@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#54faa8</color>
+    <color name="colorPrimaryDark">#63aeff</color>
     <color name="colorAccent">#FF4081</color>
     <color name="tab_unselect">#c9c9c9</color>
     <color name="global_bg">#f2f2f6</color>
+    <color name="global_tv_color">#9b9b9b</color>
+    <color name="global_tv_hint_color">#d1d1d1</color>
+    <color name="global_green">#54faa8</color>
+    <color name="global_black">#FF374249</color>
+    <color name="global_yellow">#FFFDA744</color>
+    <color name="gesture_error">#FF0000</color>
+    <color name="update_btn_disable">#d8d8d8</color>
 </resources>

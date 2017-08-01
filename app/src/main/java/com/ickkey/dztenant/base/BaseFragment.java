@@ -25,6 +25,7 @@ import com.ickkey.dztenant.utils.ToastUtils;
 import java.util.UUID;
 
 import butterknife.ButterKnife;
+import me.yokeyword.fragmentation.anim.FragmentAnimator;
 
 /**
  * Created by hhj on 2017/7/27.
@@ -196,4 +197,5 @@ public abstract class BaseFragment extends BaseBackFragment {
         super.onDestroyView();
 
     }
+
 }

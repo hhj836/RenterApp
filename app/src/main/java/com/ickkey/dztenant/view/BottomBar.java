@@ -13,6 +13,8 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.LinearLayout;
 
+import com.ickkey.dztenant.utils.LogUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 
