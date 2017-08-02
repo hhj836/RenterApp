@@ -47,22 +47,14 @@ public class GestureLoginFragment extends BaseFragment {
 
     @Override
     public void initView() {
+        inType=getArguments().getInt(ConstantValue.GESTURE_PAGER_TYPE,ConstantValue.GESTURE_HANDLE_LOGIN_IN);
         if(inType==ConstantValue.GESTURE_HANDLE_LOGIN_IN){
             btn_left_base.setVisibility(View.INVISIBLE);
         }
-        setTitle("验证手势密码").setOnBtnLeftClickListener(new RippleView.OnRippleCompleteListener() {
-            @Override
-            public void onComplete(RippleView rippleView) {
-                if(inType==ConstantValue.GESTURE_HANDLE_LOGIN_IN){
-
-                }else {
-                    pop();
-                }
-            }
-        });
+        setTitle("验证手势密码");
         aCache= RenterApp.getInstance().getCache();
         gesturePassword = aCache.getAsBinary(ConstantValue.GESTURE_PASSWORD);
-        inType=getArguments().getInt(ConstantValue.GESTURE_PAGER_TYPE,ConstantValue.GESTURE_HANDLE_LOGIN_IN);
+
         forgetGestureBtn.setVisibility(inType==ConstantValue.GESTURE_HANDLE_LOGIN_IN? View.VISIBLE:View.INVISIBLE);
         lockPatternView.setOnPatternListener(patternListener);
         updateStatus(Status.DEFAULT);

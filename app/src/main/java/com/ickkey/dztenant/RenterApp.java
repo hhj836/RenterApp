@@ -54,6 +54,7 @@ public class RenterApp extends MultiDexApplication {
 
     }
     public void logOut(){
+        userInfo=null;
         aCache.clear();
 
     }

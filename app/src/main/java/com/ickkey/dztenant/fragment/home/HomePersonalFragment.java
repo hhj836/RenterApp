@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -79,6 +80,10 @@ public class HomePersonalFragment extends BaseFragment {
                                     showToast("请输入用户名");
                                     return;
                                 }
+                                if(et_username.getText().toString().length()<6){
+                                    showToast("用户名最少6位");
+                                    return;
+                                }
                                 DialogUtils.showProgressDialog(_mActivity);
                                 UpdateUserNameReq updateUserNameReq=new UpdateUserNameReq();
                                 updateUserNameReq.token=RenterApp.getInstance().getUserInfo().token;
@@ -100,7 +105,7 @@ public class HomePersonalFragment extends BaseFragment {
                         });
 
                     }
-                });
+                }).getWindow().clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
                 break;
             case R.id.rl_update_pwd:
                 homeFragment.start(UpdatePwdFragment.newInstance(UpdatePwdFragment.class));
@@ -115,7 +120,6 @@ public class HomePersonalFragment extends BaseFragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
-                        showToast("确认");
                         RenterApp.getInstance().logOut();
                         homeFragment.startWithPop(LoginFragment.newInstance(LoginFragment.class));
 

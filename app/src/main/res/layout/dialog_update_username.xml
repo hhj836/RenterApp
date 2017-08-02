@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@drawable/dialog_bg"
-    android:orientation="vertical" android:layout_width="264dp"
-    android:layout_height="125dp">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_centerInParent="true"
+        android:background="@drawable/dialog_bg"
+        android:orientation="vertical"
+        android:layout_width="264dp"
+        android:layout_height="125dp">
     <TextView
         android:textSize="18sp"
         android:layout_gravity="center_horizontal"
@@ -12,8 +18,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <EditText
+        android:layout_gravity="center_horizontal"
         android:id="@+id/et_username"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:textColorHint="@color/global_tv_hint_color"
         android:gravity="center_vertical|start"
         android:textSize="15sp"
@@ -22,6 +29,7 @@
         android:layout_width="216dp"
         android:layout_height="40dp" />
     <RelativeLayout
+        android:layout_marginTop="5dp"
         android:layout_gravity="center_horizontal"
         android:layout_width="216dp"
         android:layout_height="wrap_content">
@@ -48,4 +56,5 @@
         </LinearLayout>
 
     </RelativeLayout>
-</LinearLayout>
+    </LinearLayout>
+</RelativeLayout>
