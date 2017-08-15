@@ -222,8 +222,7 @@ public abstract class BaseFragment extends BaseBackFragment {
 
     @Override
     public void startWithPop(final ISupportFragment toFragment) {
-        boolean save=FragmentationHack.isStateSaved(getFragmentManager());
-        if(save){
+        if(FragmentationHack.isStateSaved(getFragmentManager())){
             new Thread(){
                 @Override
                 public void run() {
