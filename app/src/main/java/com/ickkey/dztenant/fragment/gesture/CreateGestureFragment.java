@@ -3,8 +3,7 @@ package com.ickkey.dztenant.fragment.gesture;
 import android.view.View;
 import android.widget.TextView;
 
-import com.andexert.library.RippleView;
-import com.ickkey.dztenant.ConstantValue;
+import com.ickkey.dztenant.ConstantValues;
 import com.ickkey.dztenant.R;
 import com.ickkey.dztenant.RenterApp;
 import com.ickkey.dztenant.base.BaseFragment;
@@ -36,7 +35,7 @@ public class CreateGestureFragment extends BaseFragment {
     private List<LockPatternView.Cell> mChosenPattern = null;
     private ACache aCache;
     private static final long DELAYTIME = 600L;
-    private int inType=ConstantValue.GESTURE_HANDLE_LOGIN_IN;
+    private int inType= ConstantValues.GESTURE_HANDLE_LOGIN_IN;
     @Override
     public int getLayoutId() {
         return R.layout.fm_create_gesture;
@@ -44,8 +43,8 @@ public class CreateGestureFragment extends BaseFragment {
 
     @Override
     public void initView() {
-        inType=getArguments().getInt(ConstantValue.GESTURE_PAGER_TYPE,ConstantValue.GESTURE_HANDLE_LOGIN_IN);
-        if(inType==ConstantValue.GESTURE_HANDLE_LOGIN_IN){
+        inType=getArguments().getInt(ConstantValues.GESTURE_PAGER_TYPE, ConstantValues.GESTURE_HANDLE_LOGIN_IN);
+        if(inType== ConstantValues.GESTURE_HANDLE_LOGIN_IN){
             btn_left_base.setVisibility(View.INVISIBLE);
         }
         setTitle("设置手势密码");
@@ -58,7 +57,7 @@ public class CreateGestureFragment extends BaseFragment {
     }
     @Override
     public boolean onBackPressedSupport() {
-        if(inType==ConstantValue.GESTURE_HANDLE_LOGIN_IN){
+        if(inType== ConstantValues.GESTURE_HANDLE_LOGIN_IN){
             showToast("请完成手势密码设置");
             return  true;
         }else {
@@ -153,7 +152,7 @@ public class CreateGestureFragment extends BaseFragment {
     private void setLockPatternSuccess() {
 
         ToastUtils.showShortToast(_mActivity,"设置成功");
-        if(inType==ConstantValue.GESTURE_HANDLE_LOGIN_IN){
+        if(inType== ConstantValues.GESTURE_HANDLE_LOGIN_IN){
             startWithPop(HomeFragment.newInstance(HomeFragment.class));
         }else {
             pop();
@@ -166,7 +165,7 @@ public class CreateGestureFragment extends BaseFragment {
      */
     private void saveChosenPattern(List<LockPatternView.Cell> cells) {
         byte[] bytes = LockPatternUtil.patternToHash(cells);
-        aCache.put(ConstantValue.GESTURE_PASSWORD, bytes);
+        aCache.put(ConstantValues.GESTURE_PASSWORD, bytes);
     }
 
     private enum Status {

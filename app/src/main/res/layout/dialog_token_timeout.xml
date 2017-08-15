@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_centerInParent="true"
+        android:background="@drawable/shape_corners_5dp_white"
+        android:orientation="vertical"
+        android:layout_width="264dp"
+        android:layout_height="125dp">
+    <TextView
+        android:textSize="18sp"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/global_black"
+        android:layout_marginTop="25dp"
+        android:text="登录超时请重新登录"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <RelativeLayout
+        android:layout_marginTop="40dp"
+        android:layout_gravity="center"
+        android:layout_width="216dp"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_centerInParent="true"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/btn_cancel"
+                android:layout_marginRight="12dp"
+                android:textColor="@color/global_tv_color"
+                android:text="取消"
+                android:textSize="15sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+
+                android:id="@+id/btn_confirm"
+                android:textColor="@color/global_yellow"
+                android:text="重新登录"
+                android:textSize="15sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+    </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>

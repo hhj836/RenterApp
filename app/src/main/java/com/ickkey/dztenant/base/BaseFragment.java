@@ -218,6 +218,8 @@ public abstract class BaseFragment extends BaseBackFragment {
     public void pop() {
         isPop=true;
         super.pop();
+
+
     }
 
     @Override

@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
     <LinearLayout
         android:layout_centerInParent="true"
-        android:background="@drawable/dialog_bg"
+        android:background="@drawable/shape_corners_5dp_white"
         android:orientation="vertical"
         android:layout_width="264dp"
         android:layout_height="125dp">

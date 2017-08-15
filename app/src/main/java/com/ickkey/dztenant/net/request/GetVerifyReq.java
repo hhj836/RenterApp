@@ -6,4 +6,5 @@ package com.ickkey.dztenant.net.request;
 
 public class GetVerifyReq extends BaseRequest {
     public String mobile;
+    public int sendType;
 }

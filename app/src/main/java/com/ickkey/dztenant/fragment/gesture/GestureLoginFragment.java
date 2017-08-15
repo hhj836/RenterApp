@@ -1,14 +1,10 @@
 package com.ickkey.dztenant.fragment.gesture;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.andexert.library.RippleView;
-import com.ickkey.dztenant.ConstantValue;
+import com.ickkey.dztenant.ConstantValues;
 import com.ickkey.dztenant.R;
 import com.ickkey.dztenant.RenterApp;
 import com.ickkey.dztenant.base.BaseFragment;
@@ -38,7 +34,7 @@ public class GestureLoginFragment extends BaseFragment {
     private ACache aCache;
     private static final long DELAYTIME = 600l;
     private byte[] gesturePassword;
-    private int inType=ConstantValue.GESTURE_HANDLE_LOGIN_IN;
+    private int inType= ConstantValues.GESTURE_HANDLE_LOGIN_IN;
 
     @Override
     public int getLayoutId() {
@@ -47,21 +43,21 @@ public class GestureLoginFragment extends BaseFragment {
 
     @Override
     public void initView() {
-        inType=getArguments().getInt(ConstantValue.GESTURE_PAGER_TYPE,ConstantValue.GESTURE_HANDLE_LOGIN_IN);
-        if(inType==ConstantValue.GESTURE_HANDLE_LOGIN_IN){
+        inType=getArguments().getInt(ConstantValues.GESTURE_PAGER_TYPE, ConstantValues.GESTURE_HANDLE_LOGIN_IN);
+        if(inType== ConstantValues.GESTURE_HANDLE_LOGIN_IN){
             btn_left_base.setVisibility(View.INVISIBLE);
         }
         setTitle("验证手势密码");
         aCache= RenterApp.getInstance().getCache();
-        gesturePassword = aCache.getAsBinary(ConstantValue.GESTURE_PASSWORD);
+        gesturePassword = aCache.getAsBinary(ConstantValues.GESTURE_PASSWORD);
 
-        forgetGestureBtn.setVisibility(inType==ConstantValue.GESTURE_HANDLE_LOGIN_IN? View.VISIBLE:View.INVISIBLE);
+        forgetGestureBtn.setVisibility(inType== ConstantValues.GESTURE_HANDLE_LOGIN_IN? View.VISIBLE:View.INVISIBLE);
         lockPatternView.setOnPatternListener(patternListener);
         updateStatus(Status.DEFAULT);
     }
     @Override
     public boolean onBackPressedSupport() {
-        if(inType==ConstantValue.GESTURE_HANDLE_LOGIN_IN){
+        if(inType== ConstantValues.GESTURE_HANDLE_LOGIN_IN){
             showToast("请完成手势密码设置");
             return  true;
         }else {
@@ -115,11 +111,11 @@ public class GestureLoginFragment extends BaseFragment {
      */
     private void loginGestureSuccess() {
         ToastUtils.showShortToast(_mActivity,"验证成功");
-        if(inType==ConstantValue.GESTURE_HANDLE_LOGIN_IN){
+        if(inType== ConstantValues.GESTURE_HANDLE_LOGIN_IN){
             startWithPop(HomeFragment.newInstance(HomeFragment.class));
         }else {
             Bundle bundle =new Bundle();
-            bundle.putInt(ConstantValue.GESTURE_PAGER_TYPE,ConstantValue.GESTURE_HANDLE_UPDATE);
+            bundle.putInt(ConstantValues.GESTURE_PAGER_TYPE, ConstantValues.GESTURE_HANDLE_UPDATE);
             startWithPop(CreateGestureFragment.newInstance(CreateGestureFragment.class,bundle));
         }
     }

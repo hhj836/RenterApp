@@ -5,7 +5,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
-import com.ickkey.dztenant.ConstantValue;
+import com.ickkey.dztenant.ConstantValues;
 import com.ickkey.dztenant.R;
 import com.ickkey.dztenant.RenterApp;
 import com.ickkey.dztenant.base.BaseFragment;
@@ -64,12 +64,13 @@ public class LoginFragment extends BaseFragment {
                     @Override
                     public void onSucceed(LoginResponse loginResponse) {
                         super.onSucceed(loginResponse);
+                        loginResponse.mobile=et_username.getText().toString();
                         loginResponse.pwd=et_pwd.getText().toString();
                         loginResponse.tokenTimeOut=String.valueOf(System.currentTimeMillis()+loginResponse.expire*1000);
                         RenterApp.getInstance().saveUserInfo(loginResponse);
                         Bundle bundle=new Bundle();
-                        bundle.putInt(ConstantValue.GESTURE_PAGER_TYPE,ConstantValue.GESTURE_HANDLE_LOGIN_IN);
-                        if(RenterApp.getInstance().getCache().getAsBinary(ConstantValue.GESTURE_PASSWORD)!=null){
+                        bundle.putInt(ConstantValues.GESTURE_PAGER_TYPE, ConstantValues.GESTURE_HANDLE_LOGIN_IN);
+                        if(RenterApp.getInstance().getCache().getAsBinary(ConstantValues.GESTURE_PASSWORD)!=null){
                             startWithPop(GestureLoginFragment.newInstance(GestureLoginFragment.class,bundle));
                         }else {
                             startWithPop(CreateGestureFragment.newInstance(CreateGestureFragment.class,bundle));
@@ -81,7 +82,9 @@ public class LoginFragment extends BaseFragment {
 
                 break;
             case R.id.tv_forget_pwd:
-
+                Bundle bundle=new Bundle();
+                bundle.putInt(ConstantValues.REGISTER_OR_PWD,ConstantValues.FRAGMENT_FORGET_PWD);
+                start(RegisterFragment.newInstance(RegisterFragment.class,bundle));
                 break;
         }
 

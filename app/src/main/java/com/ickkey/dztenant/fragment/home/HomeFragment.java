@@ -1,14 +1,27 @@
 package com.ickkey.dztenant.fragment.home;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
+import android.widget.TextView;
 
 import com.andexert.library.RippleView;
 import com.ickkey.dztenant.R;
+import com.ickkey.dztenant.RenterApp;
 import com.ickkey.dztenant.base.BaseFragment;
 import com.ickkey.dztenant.base.BaseMainFragment;
 import com.ickkey.dztenant.fragment.login.RegisterFragment;
+import com.ickkey.dztenant.net.CommonResponseListener;
+import com.ickkey.dztenant.net.NetEngine;
+import com.ickkey.dztenant.net.request.LoginReq;
+import com.ickkey.dztenant.net.response.LoginResponse;
+import com.ickkey.dztenant.utils.DialogUtils;
+import com.ickkey.dztenant.utils.ToastUtils;
 import com.ickkey.dztenant.view.BottomBar;
 import com.ickkey.dztenant.view.BottomBarTab;
 
@@ -82,7 +95,6 @@ public class HomeFragment extends BaseMainFragment {
 
             }
         });
-
 
     }
 }

@@ -1,13 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
     <TextView
         android:layout_marginTop="20dp"
-        android:layout_gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
         android:textSize="16sp"
         android:textColor="@color/global_green"
         android:text="点一点图标刷新状态"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-</LinearLayout>
+
+    <com.ickkey.dztenant.view.RippleBackground
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="350dp"
+        android:layout_height="350dp"
+        android:id="@+id/waveView"
+        app:rb_color="#2002f78e"
+        app:rb_radius="60dp"
+        app:rb_rippleAmount="3"
+        app:rb_duration="3000"
+        app:rb_type="fillRipple"
+        app:rb_scale="2">
+
+    </com.ickkey.dztenant.view.RippleBackground>
+<RelativeLayout
+    android:layout_marginTop="20dp"
+    android:layout_centerHorizontal="true"
+    android:layout_width="350dp"
+    android:layout_height="350dp">
+    <RelativeLayout
+        android:layout_centerInParent="true"
+        android:background="@drawable/circle_green"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_status"
+                android:textColor="@android:color/white"
+                android:text="正常"
+                android:textSize="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="3dp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/tv_status"
+                android:id="@+id/tv_electric"
+                android:textColor="@android:color/white"
+                android:text="电量"
+                android:textSize="14dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+    </RelativeLayout>
+</RelativeLayout>
+</RelativeLayout>

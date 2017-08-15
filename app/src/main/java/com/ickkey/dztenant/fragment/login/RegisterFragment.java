@@ -9,14 +9,19 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ickkey.dztenant.ConstantValues;
 import com.ickkey.dztenant.R;
+import com.ickkey.dztenant.RenterApp;
 import com.ickkey.dztenant.base.BaseFragment;
 import com.ickkey.dztenant.net.CommonResponseListener;
 import com.ickkey.dztenant.net.NetEngine;
+import com.ickkey.dztenant.net.request.FindPwdReq;
 import com.ickkey.dztenant.net.request.GetVerifyReq;
 import com.ickkey.dztenant.net.request.RegisterReq;
+import com.ickkey.dztenant.net.request.UpdatePwdReq;
 import com.ickkey.dztenant.net.response.BaseResponse;
 import com.ickkey.dztenant.net.response.GetVerifyResp;
+import com.ickkey.dztenant.net.response.LoginResponse;
 import com.ickkey.dztenant.utils.DialogUtils;
 import com.ickkey.dztenant.utils.LogUtil;
 import com.ickkey.dztenant.utils.ValidatorUtils;
@@ -57,6 +62,7 @@ public class RegisterFragment extends BaseFragment {
 
     @BindView(R.id.btn_register)
     TextView btn_register;
+    private int  contentType= ConstantValues.FRAGMENT_REGISTER;
     String  verifyCode="";
     @Override
     public int getLayoutId() {
@@ -65,7 +71,10 @@ public class RegisterFragment extends BaseFragment {
 
     @Override
     public void initView() {
-        setTitle("注册");
+        contentType=getArguments().getInt(ConstantValues.REGISTER_OR_PWD, ConstantValues.FRAGMENT_REGISTER);
+        setTitle(contentType==ConstantValues.FRAGMENT_REGISTER?"注册":"找回密码");
+        tv_step3.setText(contentType==ConstantValues.FRAGMENT_REGISTER?"3.设置密码":"3.重置密码");
+        btn_register.setText(contentType==ConstantValues.FRAGMENT_REGISTER?"提交注册":"重置密码");
         btn_submit_verify.setClickable(false);
         btn_register.setClickable(false);
         et_verify.addTextChangedListener(new TextWatcher() {
@@ -83,10 +92,10 @@ public class RegisterFragment extends BaseFragment {
             public void afterTextChanged(Editable editable) {
                 if(!TextUtils.isEmpty(editable.toString())){
                     btn_submit_verify.setClickable(true);
-                    btn_submit_verify.setBackgroundResource(R.drawable.login_btn_bg);
+                    btn_submit_verify.setBackgroundResource(R.drawable.shape_corners_20dp_blue);
                 }else {
                     btn_submit_verify.setClickable(false);
-                    btn_submit_verify.setBackgroundResource(R.drawable.login_btn_bg_disable);
+                    btn_submit_verify.setBackgroundResource(R.drawable.shape_corners_20dp_blue_disable);
                 }
 
             }
@@ -110,10 +119,10 @@ public class RegisterFragment extends BaseFragment {
         public void afterTextChanged(Editable editable) {
             if(et_pwd.getText().toString().length()>0&&et_pwd_confirm.getText().toString().length()>0){
                 btn_register.setClickable(true);
-                btn_register.setBackgroundResource(R.drawable.login_btn_bg);
+                btn_register.setBackgroundResource(R.drawable.shape_corners_20dp_blue);
             }else {
                 btn_register.setClickable(false);
-                btn_register.setBackgroundResource(R.drawable.login_btn_bg_disable);
+                btn_register.setBackgroundResource(R.drawable.shape_corners_20dp_blue_disable);
             }
 
         }
@@ -141,6 +150,7 @@ public class RegisterFragment extends BaseFragment {
                 DialogUtils.showProgressDialog(_mActivity);
                 GetVerifyReq req=new GetVerifyReq();
                 req.mobile=et_phone.getText().toString().trim();
+                req.sendType=contentType==ConstantValues.FRAGMENT_REGISTER?1:2;
                 NetEngine.getInstance().sendGetVerifyRequest(_mActivity, new CommonResponseListener<GetVerifyResp>(){
                     @Override
                     public void onSucceed(GetVerifyResp getVerifyResp) {
@@ -168,19 +178,41 @@ public class RegisterFragment extends BaseFragment {
                     showToast(getString(R.string.pwd_confirm_error));
                     return;
                 }
-                RegisterReq registerReq=new RegisterReq();
-                registerReq.code=verifyCode;
-                registerReq.mobile=et_phone.getText().toString().trim();
-                registerReq.password=et_pwd.getText().toString().trim();
                 DialogUtils.showProgressDialog(_mActivity);
-                NetEngine.getInstance().sendRegisterRequest(_mActivity,new CommonResponseListener<BaseResponse>(){
-                    @Override
-                    public void onSucceed(BaseResponse registerResp) {
-                        super.onSucceed(registerResp);
-                        showToast("注册成功");
-                        pop();
-                    }
-                },fragment_tag,registerReq);
+                if(contentType==ConstantValues.FRAGMENT_REGISTER){
+                    RegisterReq registerReq=new RegisterReq();
+                    registerReq.regtype=0;
+
+                    registerReq.code=verifyCode;
+                    registerReq.mobile=et_phone.getText().toString().trim();
+                    registerReq.password=et_pwd.getText().toString().trim();
+                    NetEngine.getInstance().sendRegisterRequest(_mActivity,new CommonResponseListener<BaseResponse>(){
+                        @Override
+                        public void onSucceed(BaseResponse registerResp) {
+                            super.onSucceed(registerResp);
+                            showToast("注册成功");
+                            pop();
+                        }
+                    },fragment_tag,registerReq);
+                }else {
+                    FindPwdReq findPwdReq=new FindPwdReq();
+                    findPwdReq.password=et_pwd_confirm.getText().toString();
+                    findPwdReq.mobile=et_phone.getText().toString();
+                    findPwdReq.code=verifyCode;
+                    NetEngine.getInstance().sendFindPwdRequest(_mActivity,new CommonResponseListener<BaseResponse>(){
+                        @Override
+                        public void onSucceed(BaseResponse baseResponse) {
+                            super.onSucceed(baseResponse);
+                            LoginResponse userInfo=RenterApp.getInstance().getUserInfo();
+                            if(userInfo!=null){
+                                userInfo.pwd=et_pwd_confirm.getText().toString();
+                                RenterApp.getInstance().saveUserInfo(userInfo);
+                            }
+                            showToast("重置密码成功");
+                            pop();
+                        }
+                    },fragment_tag,findPwdReq);
+                }
                 break;
         }
     }

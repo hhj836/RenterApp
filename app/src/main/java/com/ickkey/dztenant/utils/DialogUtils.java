@@ -143,12 +143,6 @@ progressDialog.show();
 		
 	}
 	public static void closeProgressDialog(){
-		/*if(customProgressDialog.getContext()instanceof Activity){
-			Activity activity= (Activity) customProgressDialog.getContext();
-			if(activity.isFinishing()){
-				return;
-			}
-		}*/
 		try {
 			if(customProgressDialog!=null&&customProgressDialog.isShowing()) {
 				customProgressDialog.dismiss();
@@ -160,18 +154,7 @@ progressDialog.show();
 
 
 	}
-	/*public static void closeProgressDialog(){
-		try {
-			if(progressDialog!=null&&progressDialog.isShowing()) {
-				progressDialog.dismiss();
-			}
-			progressDialog=null;
-		}catch (Exception e){
 
-		}
-
-
-	}*/
 
 	public interface CustomizeAction {
 		void setCustomizeAction(AlertDialog dialog, View view);

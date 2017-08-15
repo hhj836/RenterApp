@@ -35,14 +35,9 @@
 -keep public class * extends android.app.backup.BackupAgentHelper
 -keep public class * extends android.preference.Preference
 -keep public class com.android.vending.licensing.ILicensingService
--keep public class com.xtremeprog.sdk.ble.BleService
--keep public class com.peach.utils.SmileUtils
--keep class com.lsjwzh.widget.recyclerviewpager.**
--dontwarn com.lsjwzh.widget.recyclerviewpager.**
+
 #如果有引用v4包可以添加下面这行
 -keep public class * extends android.support.v4.app.Fragment
-#小米推送
--keep class com.peach.receiver.MiPushReceiver {*;}
 
 # For native methods, see http://proguard.sourceforge.net/manual/examples.html#native
 -keepclasseswithmembernames class * {
@@ -62,9 +57,6 @@
 }
 -keepclassmembers class * extends  android.app.Activity{
     <fields>;
-}
--keepclassmembers class * {
-public void setContentView(***);
 }
 # For enumeration classes, see http://proguard.sourceforge.net/manual/examples.html#enumerations
 -keepclassmembers enum * {
@@ -87,6 +79,13 @@ public void setContentView(***);
 
 -keep class com.google.**{*;}
 -keep class org.apache.commons.lang3.**{*;}
+#EventBus
+-keepattributes *Annotation*
+-keepclassmembers class ** {
+    @org.greenrobot.eventbus.Subscribe <methods>;
+}
+-keep enum org.greenrobot.eventbus.ThreadMode { *; }
+
 
 -dontwarn
 -ignorewarnings
@@ -108,13 +107,4 @@ public void setContentView(***);
 }  
 
 
--keepclassmembers class * {
-   public <init>(org.json.JSONObject);
-}
 
--keep public class com.peach.app.R$*{
-public static final int *;
-}
--keepclassmembers class * {
-public void onEventMainThread(***);
-}

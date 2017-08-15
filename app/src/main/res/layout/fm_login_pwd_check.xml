@@ -18,7 +18,7 @@
     <TextView
         android:id="@+id/btn_confirm"
         android:gravity="center"
-        android:background="@drawable/update_btn_bg_disable"
+        android:background="@drawable/shape_corners_20dp_yellow_disable"
         android:text="确定"
         android:textSize="18sp"
         android:textColor="@android:color/white"
@@ -32,8 +32,9 @@
         android:layout_width="312dp"
         android:layout_height="wrap_content">
         <TextView
+            android:id="@+id/forget_pwd"
             android:layout_alignParentRight="true"
-            android:text="键入密码已完成验证"
+            android:text="忘记密码？"
             android:textColor="@color/global_tv_color"
             android:textSize="12sp"
             android:layout_width="wrap_content"

@@ -40,7 +40,9 @@ public class HttpRequestUtils {
         }
     }
     public  void addRequest(GsonRequest request, String tag) {
-        request.setTag(tag);
+        if(tag!=null){
+            request.setTag(tag);
+        }
         request.setRetryPolicy(new DefaultRetryPolicy(20*1000, 0,1f));
         getRequestQueue().add(request);
     }

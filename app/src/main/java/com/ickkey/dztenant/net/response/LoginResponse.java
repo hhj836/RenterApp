@@ -13,4 +13,5 @@ public class LoginResponse extends BaseResponse{
     //本地存储
     public String pwd;
     public String tokenTimeOut;
+    public String mobile;
 }

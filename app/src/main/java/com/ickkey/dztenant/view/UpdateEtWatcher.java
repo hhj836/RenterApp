@@ -31,10 +31,10 @@ public class UpdateEtWatcher implements TextWatcher {
         if(updateView!=null){
             if(editable.toString().trim().length()>0){
                 updateView.setClickable(true);
-                updateView.setBackgroundResource(R.drawable.update_btn_bg);
+                updateView.setBackgroundResource(R.drawable.shape_corners_20dp_yellow);
             }else {
                 updateView.setClickable(false);
-                updateView.setBackgroundResource(R.drawable.update_btn_bg_disable);
+                updateView.setBackgroundResource(R.drawable.shape_corners_20dp_yellow_disable);
             }
         }
 

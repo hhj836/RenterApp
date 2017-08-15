@@ -4,7 +4,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.multidex.MultiDexApplication;
 
-import com.ickkey.dztenant.net.request.LoginReq;
 import com.ickkey.dztenant.net.response.LoginResponse;
 import com.ickkey.dztenant.utils.cache.ACache;
 
@@ -42,20 +41,21 @@ public class RenterApp extends MultiDexApplication {
     }
     public LoginResponse getUserInfo(){
         if(userInfo==null){
-            userInfo= (LoginResponse) aCache.getAsObject(ConstantValue.CACHE_KEY_TOKEN_USER_INFO);
+            userInfo= (LoginResponse) aCache.getAsObject(ConstantValues.CACHE_KEY_TOKEN_USER_INFO);
         }
         return userInfo;
 
     }
     public void saveUserInfo (LoginResponse userInfo){
         this.userInfo=userInfo;
-        aCache.put(ConstantValue.CACHE_KEY_TOKEN_USER_INFO,userInfo);
+        aCache.put(ConstantValues.CACHE_KEY_TOKEN_USER_INFO,userInfo);
 
 
     }
     public void logOut(){
         userInfo=null;
         aCache.clear();
+
 
     }
 }

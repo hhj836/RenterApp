@@ -3,14 +3,14 @@ package com.ickkey.dztenant.fragment.home;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.app.FragmentationHack;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.ickkey.dztenant.ConstantValue;
+import com.ickkey.dztenant.ConstantValues;
 import com.ickkey.dztenant.R;
 import com.ickkey.dztenant.RenterApp;
 import com.ickkey.dztenant.base.BaseFragment;
@@ -24,6 +24,7 @@ import com.ickkey.dztenant.utils.DialogUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import me.yokeyword.fragmentation.SupportHelper;
 
 /**
  * Created by hhj on 2017/7/27.
@@ -112,7 +113,7 @@ public class HomePersonalFragment extends BaseFragment {
                 break;
             case R.id.rl_update_gesture_pwd:
                 Bundle bundle=new Bundle();
-                bundle.putInt(ConstantValue.GESTURE_PAGER_TYPE,ConstantValue.GESTURE_HANDLE_UPDATE);
+                bundle.putInt(ConstantValues.GESTURE_PAGER_TYPE, ConstantValues.GESTURE_HANDLE_UPDATE);
                 homeFragment.start(GestureLoginFragment.newInstance(GestureLoginFragment.class,bundle));
                 break;
             case R.id.btn_exit:
@@ -121,6 +122,7 @@ public class HomePersonalFragment extends BaseFragment {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
                         RenterApp.getInstance().logOut();
+
                         homeFragment.startWithPop(LoginFragment.newInstance(LoginFragment.class));
 
                     }

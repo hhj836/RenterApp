@@ -1,6 +1,13 @@
 package com.ickkey.dztenant.net;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.text.TextUtils;
+import android.view.KeyEvent;
+import android.view.View;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -8,9 +15,13 @@ import com.ickkey.dztenant.BuildConfig;
 import com.ickkey.dztenant.R;
 import com.ickkey.dztenant.RenterApp;
 import com.ickkey.dztenant.net.request.BaseRequest;
+import com.ickkey.dztenant.net.request.LoginReq;
 import com.ickkey.dztenant.net.response.BaseResponse;
+import com.ickkey.dztenant.net.response.LoginResponse;
+import com.ickkey.dztenant.utils.DialogUtils;
 import com.ickkey.dztenant.utils.LogUtil;
 import com.ickkey.dztenant.utils.NetUtil;
+import com.ickkey.dztenant.utils.ToastUtils;
 
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
@@ -59,13 +70,13 @@ public class BaseNetEngine {
 
             @Override
             public void onResponse(T response) {
-                parseResponse(onResponseListener,response);
+                parseResponse(onResponseListener,response,context);
             }
         },new CommonVolleyErrorListener(context));
         HttpRequestUtils.getInstance().addRequest(request,tag);
     }
 
-    public  <T extends BaseResponse> void sendGetRequest(String url,Context context,Class<T> parseClass, final OnResponseListener<T> onResponseListener, String tag,  BaseRequest...req){
+    public  <T extends BaseResponse> void sendGetRequest(String url, final Context context, Class<T> parseClass, final OnResponseListener<T> onResponseListener, String tag, BaseRequest...req){
         if(!NetUtil.checkNetWork(context)){
             onResponseListener.onError(context.getString(R.string.no_net));
             return;
@@ -96,18 +107,58 @@ public class BaseNetEngine {
 
             @Override
             public void onResponse(T response) {
-                parseResponse(onResponseListener,response);
+                parseResponse(onResponseListener,response,context);
             }
         },new CommonVolleyErrorListener(context));
         HttpRequestUtils.getInstance().addRequest(request,tag);
 
     }
-    private  <T extends BaseResponse> void parseResponse(OnResponseListener onResponseListener, T response){
+    private  <T extends BaseResponse> void parseResponse(OnResponseListener onResponseListener, T response, final Context context){
         if(response.code!=0){
             onResponseListener.onError(response.msg);
 
         }else {
-            onResponseListener.onSucceed(response);
+            if(response.code==501){
+                //token 过期
+              AlertDialog dialog= DialogUtils.showDialog((Activity) context, R.layout.dialog_token_timeout, false, new DialogUtils.CustomizeAction() {
+                    @Override
+                    public void setCustomizeAction(final AlertDialog dialog, View view) {
+                        TextView btn_confirm= (TextView) view.findViewById(R.id.btn_confirm);
+                        btn_confirm.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                LoginReq loginReq=new LoginReq();
+                                loginReq.mobile=!TextUtils.isEmpty(RenterApp.getInstance().getUserInfo().mobile)?RenterApp.getInstance().getUserInfo().mobile:RenterApp.getInstance().getUserInfo().username;
+                                loginReq.password=RenterApp.getInstance().getUserInfo().pwd;
+                                NetEngine.getInstance().sendLoginRequest(context,new CommonResponseListener<LoginResponse>(){
+                                    @Override
+                                    public void onSucceed(LoginResponse loginResponse) {
+                                        super.onSucceed(loginResponse);
+                                        loginResponse.tokenTimeOut=String.valueOf(System.currentTimeMillis()+loginResponse.expire*1000);
+                                        RenterApp.getInstance().saveUserInfo(loginResponse);
+                                        ToastUtils.showShortToast(context,"重登成功");
+                                        dialog.dismiss();
+
+                                    }
+                                },null,loginReq);
+                            }
+                        });
+
+                    }
+                });
+                dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+                    @Override
+                    public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                        if (keyCode == KeyEvent.KEYCODE_BACK)
+                            return true;
+
+                        return false;
+                    }
+                });
+            }else {
+                onResponseListener.onSucceed(response);
+            }
+
         }
 
     }

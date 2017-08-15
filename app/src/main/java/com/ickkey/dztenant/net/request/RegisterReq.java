@@ -8,4 +8,5 @@ public class RegisterReq extends BaseRequest {
     public String mobile;
     public String password;
     public String code;
+    public int regtype;
 }

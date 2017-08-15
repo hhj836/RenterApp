@@ -22,7 +22,7 @@ public  class CommonVolleyErrorListener implements Response.ErrorListener {
     public void onErrorResponse(VolleyError error) {
         LogUtil.info(getClass(),error.getMessage());
         if(context!=null){
-            ToastUtils.showShortToast(context,"网络错误");
+            ToastUtils.showShortToast(context,"服务器繁忙");
         }
     }
 }

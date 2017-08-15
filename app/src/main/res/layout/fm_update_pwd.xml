@@ -23,7 +23,7 @@
     <TextView
         android:id="@+id/btn_check"
         android:gravity="center"
-        android:background="@drawable/update_btn_bg_disable"
+        android:background="@drawable/shape_corners_20dp_yellow_disable"
         android:text="确定"
         android:textSize="18sp"
         android:textColor="@android:color/white"
@@ -66,7 +66,7 @@
         <TextView
             android:id="@+id/btn_confirm"
             android:gravity="center"
-            android:background="@drawable/update_btn_bg_disable"
+            android:background="@drawable/shape_corners_20dp_yellow_disable"
             android:text="确定"
             android:textSize="18sp"
             android:textColor="@android:color/white"

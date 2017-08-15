@@ -12,7 +12,6 @@ import com.ickkey.dztenant.RenterApp;
 import com.ickkey.dztenant.base.BaseFragment;
 import com.ickkey.dztenant.net.CommonResponseListener;
 import com.ickkey.dztenant.net.NetEngine;
-import com.ickkey.dztenant.net.request.LoginReq;
 import com.ickkey.dztenant.net.request.UpdatePwdReq;
 import com.ickkey.dztenant.net.response.BaseResponse;
 import com.ickkey.dztenant.net.response.LoginResponse;
@@ -73,10 +72,10 @@ public class UpdatePwdFragment extends BaseFragment {
         public void afterTextChanged(Editable editable) {
             if(et_pwd_new.getText().toString().length()>0&&et_pwd_confirm.getText().toString().length()>0){
                 btn_confirm.setClickable(true);
-                btn_confirm.setBackgroundResource(R.drawable.update_btn_bg);
+                btn_confirm.setBackgroundResource(R.drawable.shape_corners_20dp_yellow);
             }else {
                 btn_confirm.setClickable(false);
-                btn_confirm.setBackgroundResource(R.drawable.update_btn_bg_disable);
+                btn_confirm.setBackgroundResource(R.drawable.shape_corners_20dp_yellow_disable);
             }
 
         }

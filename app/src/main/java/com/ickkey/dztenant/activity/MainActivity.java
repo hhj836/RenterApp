@@ -1,6 +1,7 @@
 package com.ickkey.dztenant.activity;
 
 import android.os.Bundle;
+import android.os.PersistableBundle;
 
 import com.ickkey.dztenant.R;
 import com.ickkey.dztenant.fragment.login.LaunchFragment;
@@ -20,7 +21,13 @@ public class MainActivity extends SupportActivity {
 
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+    }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+    }
 
     @Override
     public void onBackPressedSupport() {

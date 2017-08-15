@@ -85,7 +85,7 @@
         android:id="@+id/btn_exit"
         android:gravity="center"
         android:text="退出登录"
-        android:background="@drawable/exit_btn_bg"
+        android:background="@drawable/shape_corners_20dp_yellow"
         android:layout_marginTop="21dp"
         android:textColor="@android:color/white"
         android:textSize="14sp"
