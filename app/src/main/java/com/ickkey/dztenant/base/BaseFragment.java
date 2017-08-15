@@ -5,6 +5,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentationHack;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,9 +23,12 @@ import com.ickkey.dztenant.net.HttpRequestUtils;
 import com.ickkey.dztenant.utils.LogUtil;
 import com.ickkey.dztenant.utils.ToastUtils;
 
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.UUID;
 
 import butterknife.ButterKnife;
+import me.yokeyword.fragmentation.ISupportFragment;
 import me.yokeyword.fragmentation.anim.FragmentAnimator;
 
 /**
@@ -41,6 +45,7 @@ import me.yokeyword.fragmentation.anim.FragmentAnimator;
 public abstract class BaseFragment extends BaseBackFragment {
     public Handler handler= RenterApp.getInstance().getMainThreadHandler();
     public final String fragment_tag=getClass().getSimpleName()+ UUID.randomUUID();
+    private boolean isPop;
 
     public static BaseFragment newInstance(Class<? extends  BaseFragment> clazz,Bundle...args) {
 
@@ -191,11 +196,62 @@ public abstract class BaseFragment extends BaseBackFragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
     public void onDestroyView() {
         HttpRequestUtils.getInstance().getRequestQueue().cancelAll(fragment_tag);
        // LogUtil.info(getClass(),"onDestroyView");
+        isPop=true;
         super.onDestroyView();
 
     }
 
+    @Override
+    public void pop() {
+        isPop=true;
+        super.pop();
+    }
+
+    @Override
+    public void startWithPop(final ISupportFragment toFragment) {
+        boolean save=FragmentationHack.isStateSaved(getFragmentManager());
+        if(save){
+            new Thread(){
+                @Override
+                public void run() {
+                    while (FragmentationHack.isStateSaved(getFragmentManager())&&!isPop){
+                        try {
+                            Thread.sleep(500);
+                            LogUtil.info(getClass(),"startWithPop---sleep---");
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(!isPop){
+                                BaseFragment.this.getSupportDelegate().startWithPop(toFragment);
+                            }
+
+                        }
+                    });
+                }
+            }.start();
+
+        }else {
+            super.startWithPop(toFragment);
+        }
+
+
+    }
 }
