@@ -1,12 +1,20 @@
 package com.ickkey.dztenant.net;
 
 import android.content.Context;
+import android.text.TextUtils;
 
+import com.ickkey.dztenant.RenterApp;
 import com.ickkey.dztenant.net.request.BaseRequest;
 import com.ickkey.dztenant.net.response.BaseResponse;
-import com.ickkey.dztenant.net.response.GetLocksResp;
 import com.ickkey.dztenant.net.response.GetVerifyResp;
 import com.ickkey.dztenant.net.response.LoginResponse;
+import com.ickkey.dztenant.net.response.SearchLocksResp;
+import com.ickkey.dztenant.utils.DialogUtils;
+import com.ickkey.dztenant.utils.Json2ObjHelper;
+import com.ickkey.dztenant.utils.LogUtil;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by Administrator on 2017/7/25.
@@ -59,10 +67,22 @@ public class NetEngine extends BaseNetEngine {
         sendPostRequest(Urls.FIND_PWD,context,BaseResponse.class,onResponseListener,tag,req);
     }
     /**
-     * 获取锁状态
+     * 判断是否注册过
      */
-    public void sendGetLocksRequest(Context context, final OnResponseListener<GetLocksResp> onResponseListener, String tag, BaseRequest...req){
-        sendPostRequest(Urls.GET_LOCKS,context,GetLocksResp.class,onResponseListener,tag,req);
-
+    public void sendExistMobileRequest(Context context, final OnResponseListener<BaseResponse> onResponseListener, String tag, BaseRequest...req){
+        sendPostRequest(Urls.EXIST_MOBILE,context,BaseResponse.class,onResponseListener,tag,req);
     }
+    /**
+     * 设置锁密码
+     */
+    public void sendUpdateLocksPwdRequest(Context context, final OnResponseListener<BaseResponse> onResponseListener, String tag, BaseRequest...req){
+        sendPostRequest(Urls.UPDATE_LOCK_PWD,context,BaseResponse.class,onResponseListener,tag,req);
+    }
+    /**
+     * 搜索锁
+     */
+    public void sendSearchLocksRequest(Context context, final OnResponseListener<SearchLocksResp> onResponseListener, String tag, BaseRequest...req){
+        sendPostRequest(Urls.SEARCH_LOCK,context,SearchLocksResp.class,onResponseListener,tag,req);
+    }
+
 }

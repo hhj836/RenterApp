@@ -8,10 +8,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
     <TextView
+        android:id="@+id/lock_desc"
         android:layout_above="@+id/magic_indicator"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="12dp"
-        android:text="室内门锁"
+        android:text=""
         android:textColor="@color/global_black"
         android:textSize="18sp"
         android:layout_width="wrap_content"

@@ -27,11 +27,12 @@
         android:layout_width="312dp"
         android:layout_height="36dp" />
     <RelativeLayout
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="5dp"
         android:layout_gravity="center_horizontal"
         android:layout_width="312dp"
         android:layout_height="wrap_content">
         <TextView
+            android:padding="5dp"
             android:id="@+id/forget_pwd"
             android:layout_alignParentRight="true"
             android:text="忘记密码？"

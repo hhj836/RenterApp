@@ -13,6 +13,7 @@ import com.ickkey.dztenant.RenterApp;
 import com.ickkey.dztenant.base.BaseFragment;
 import com.ickkey.dztenant.fragment.home.HomeFragment;
 import com.ickkey.dztenant.fragment.login.RegisterFragment;
+import com.ickkey.dztenant.utils.ToastUtils;
 import com.ickkey.dztenant.view.UpdateEtWatcher;
 
 import butterknife.BindView;
@@ -51,6 +52,8 @@ public class LoginPwdCheckFragment extends BaseFragment {
                         fragment.getFragmentManager().beginTransaction().remove(fragment).commitAllowingStateLoss();
                     }
                     startWithPop(HomeFragment.newInstance(HomeFragment.class));
+                }else {
+                    ToastUtils.showShortToast(_mActivity,"密码不正确");
                 }
                 break;
             case R.id.forget_pwd:

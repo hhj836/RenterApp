@@ -9,6 +9,11 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.PopupWindow;
 
 import com.ickkey.dztenant.R;
+import com.ickkey.dztenant.RenterApp;
+import com.ickkey.dztenant.net.CommonResponseListener;
+import com.ickkey.dztenant.net.NetEngine;
+import com.ickkey.dztenant.net.request.UpdateLockPwdReq;
+import com.ickkey.dztenant.net.response.BaseResponse;
 import com.ickkey.dztenant.utils.ToastUtils;
 
 
@@ -25,10 +30,9 @@ public class PopEnterPassword extends PopupWindow {
 
     private Activity mContext;
 
-    public PopEnterPassword(final Activity context) {
+    public PopEnterPassword(final Activity context, final String pwdId, final onUpdateSucceedListener onUpdateSucceedListener) {
 
         super(context);
-
         this.mContext = context;
 
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -41,8 +45,23 @@ public class PopEnterPassword extends PopupWindow {
         pwdView.setOnFinishInput(new OnPasswordInputFinish() {
             @Override
             public void inputFinish(final String password) {
-                dismiss();
-                ToastUtils.showShortToast(context,password);
+
+                UpdateLockPwdReq updateLockPwdReq=new UpdateLockPwdReq();
+                updateLockPwdReq.token= RenterApp.getInstance().getUserInfo().token;
+                updateLockPwdReq.pwd=password;
+                updateLockPwdReq.pwdId=pwdId;
+                NetEngine.getInstance().sendUpdateLocksPwdRequest(context,new CommonResponseListener<BaseResponse>(){
+                    @Override
+                    public void onSucceed(BaseResponse baseResponse) {
+                        super.onSucceed(baseResponse);
+                        dismiss();
+                        if(onUpdateSucceedListener!=null){
+                            onUpdateSucceedListener.onSucceed();
+                        }
+
+                    }
+                },null,updateLockPwdReq);
+
 
             }
         });
@@ -78,5 +97,8 @@ public class PopEnterPassword extends PopupWindow {
         // 设置SelectPicPopupWindow弹出窗体的背景
         this.setBackgroundDrawable(dw);
 
+    }
+    public interface  onUpdateSucceedListener{
+        void onSucceed();
     }
 }

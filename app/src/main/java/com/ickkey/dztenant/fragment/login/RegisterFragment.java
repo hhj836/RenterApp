@@ -15,6 +15,8 @@ import com.ickkey.dztenant.RenterApp;
 import com.ickkey.dztenant.base.BaseFragment;
 import com.ickkey.dztenant.net.CommonResponseListener;
 import com.ickkey.dztenant.net.NetEngine;
+import com.ickkey.dztenant.net.OnResponseListener;
+import com.ickkey.dztenant.net.request.ExistMobileReq;
 import com.ickkey.dztenant.net.request.FindPwdReq;
 import com.ickkey.dztenant.net.request.GetVerifyReq;
 import com.ickkey.dztenant.net.request.RegisterReq;
@@ -139,6 +141,21 @@ public class RegisterFragment extends BaseFragment {
         tv_step2.setTextColor(_mActivity.getResources().getColor(R.color.global_tv_color));
         tv_step3.setTextColor(_mActivity.getResources().getColor(R.color.colorPrimaryDark));
     }
+    private  void sendVerifyRequest(){
+        DialogUtils.showProgressDialog(_mActivity);
+        GetVerifyReq req=new GetVerifyReq();
+        req.mobile=et_phone.getText().toString().trim();
+        req.sendType=contentType==ConstantValues.FRAGMENT_REGISTER?1:2;
+        NetEngine.getInstance().sendGetVerifyRequest(_mActivity, new CommonResponseListener<GetVerifyResp>(){
+            @Override
+            public void onSucceed(GetVerifyResp getVerifyResp) {
+                super.onSucceed(getVerifyResp);
+                showToast("验证码已发送，请注意查收");
+                verifyCode=getVerifyResp.phoneCode;
+                step2();
+            }
+        },fragment_tag,req);
+    }
     @OnClick({R.id.btn_verify,R.id.btn_submit_verify,R.id.btn_register})
     public void onClick(View v){
         switch (v.getId()){
@@ -148,18 +165,31 @@ public class RegisterFragment extends BaseFragment {
                       return;
                 }
                 DialogUtils.showProgressDialog(_mActivity);
-                GetVerifyReq req=new GetVerifyReq();
-                req.mobile=et_phone.getText().toString().trim();
-                req.sendType=contentType==ConstantValues.FRAGMENT_REGISTER?1:2;
-                NetEngine.getInstance().sendGetVerifyRequest(_mActivity, new CommonResponseListener<GetVerifyResp>(){
+                ExistMobileReq  existMobileReq=new ExistMobileReq();
+                existMobileReq.mobile=et_phone.getText().toString();
+                NetEngine.getInstance().sendExistMobileRequest(_mActivity, new OnResponseListener<BaseResponse>() {
                     @Override
-                    public void onSucceed(GetVerifyResp getVerifyResp) {
-                        super.onSucceed(getVerifyResp);
-                        showToast("验证码已发送，请注意查收");
-                        verifyCode=getVerifyResp.phoneCode;
-                        step2();
+                    public void onSucceed(BaseResponse baseResponse) {
+                            if(contentType==ConstantValues.FRAGMENT_REGISTER){
+                                sendVerifyRequest();
+                            }else {
+                                showToast("手机号码未被注册");
+                            }
                     }
-                },fragment_tag,req);
+
+                    @Override
+                    public void onError(String errorMsg) {
+                        if(contentType==ConstantValues.FRAGMENT_FORGET_PWD){
+                            sendVerifyRequest();
+                        }else {
+                            showToast("手机号码已被注册");
+                        }
+
+                    }
+                },fragment_tag,existMobileReq);
+
+
+
 
                 break;
             case R.id.btn_submit_verify:

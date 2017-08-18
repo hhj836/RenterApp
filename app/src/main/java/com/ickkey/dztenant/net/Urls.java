@@ -13,4 +13,10 @@ public interface Urls {
         String UPUSERNAME=BASE_URL+"/api/upusername";
         String FIND_PWD=BASE_URL+"/api/findpwd";
         String GET_LOCKS=BASE_URL+"/api/getlocks";
+        String EXIST_MOBILE=BASE_URL+"/api/existMobile";
+        String GET_LOCK_PWD=BASE_URL+"/api/getlockspwd";
+        String UPDATE_LOCK_PWD=BASE_URL+"/api/updatelockspwd";
+        String SEARCH_LOCK=BASE_URL+"/api/searchlocks";
+        String GET_LOCKS_ID=BASE_URL+"/api/getlocksId";
+
 }

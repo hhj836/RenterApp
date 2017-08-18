@@ -92,17 +92,19 @@
             android:layout_height="32dp" />
         <RelativeLayout
             android:layout_marginBottom="70dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="7dp"
             android:layout_width="216dp"
             android:layout_height="wrap_content">
             <TextView
+                android:padding="5dp"
                 android:id="@+id/tv_register"
                 android:text="注册"
                 android:textSize="12sp"
                 android:textColor="@color/global_tv_color"
-                android:layout_width="216dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
+                android:padding="5dp"
                 android:layout_alignParentRight="true"
                 android:id="@+id/tv_forget_pwd"
                 android:text="忘记密码？"

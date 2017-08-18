@@ -16,6 +16,7 @@ import com.ickkey.dztenant.net.CommonResponseListener;
 import com.ickkey.dztenant.net.NetEngine;
 import com.ickkey.dztenant.net.request.LoginReq;
 import com.ickkey.dztenant.net.response.LoginResponse;
+import com.ickkey.dztenant.utils.DialogUtils;
 
 
 import butterknife.BindView;
@@ -57,6 +58,7 @@ public class LoginFragment extends BaseFragment {
                     return;
 
                 }
+                DialogUtils.showProgressDialog(_mActivity);
                 LoginReq loginReq=new LoginReq();
                 loginReq.mobile=et_username.getText().toString();
                 loginReq.password=et_pwd.getText().toString();
@@ -67,6 +69,7 @@ public class LoginFragment extends BaseFragment {
                         loginResponse.mobile=et_username.getText().toString();
                         loginResponse.pwd=et_pwd.getText().toString();
                         loginResponse.tokenTimeOut=String.valueOf(System.currentTimeMillis()+loginResponse.expire*1000);
+                        RenterApp.getInstance().setPwd(et_pwd.getText().toString());
                         RenterApp.getInstance().saveUserInfo(loginResponse);
                         Bundle bundle=new Bundle();
                         bundle.putInt(ConstantValues.GESTURE_PAGER_TYPE, ConstantValues.GESTURE_HANDLE_LOGIN_IN);

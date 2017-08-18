@@ -1,7 +1,9 @@
 package com.ickkey.dztenant;
 
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
+import android.preference.PreferenceManager;
 import android.support.multidex.MultiDexApplication;
 
 import com.ickkey.dztenant.net.response.LoginResponse;
@@ -31,6 +33,7 @@ public class RenterApp extends MultiDexApplication {
 
     private ACache aCache;
     private LoginResponse userInfo;
+    private SharedPreferences sharedPreferences;
 
     @Override
     public void onCreate() {
@@ -38,6 +41,7 @@ public class RenterApp extends MultiDexApplication {
         instance=this;
         aCache=ACache.get(getInstance());
         CrashHandler.getInstance().init(getApplicationContext());
+        sharedPreferences= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
     }
     public LoginResponse getUserInfo(){
         if(userInfo==null){
@@ -52,9 +56,16 @@ public class RenterApp extends MultiDexApplication {
 
 
     }
+    public void setPwd(String pwd){
+        sharedPreferences.edit().putString("pwd",pwd).commit();
+    }
+    public String getPwd(){
+       return sharedPreferences.getString("pwd",null);
+    }
     public void logOut(){
         userInfo=null;
         aCache.clear();
+        sharedPreferences.edit().clear().commit();
 
 
     }

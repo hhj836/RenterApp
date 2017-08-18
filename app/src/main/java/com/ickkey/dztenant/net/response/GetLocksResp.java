@@ -1,13 +1,15 @@
 package com.ickkey.dztenant.net.response;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by hhj on 2017/8/15.
  */
 
-public class GetLocksResp extends BaseResponse {
-
+public class GetLocksResp implements Serializable {
+    public List<LockItem>  msg;
+    public int code;
     public class LockItem implements Serializable{
         public int id;
         public String gatewayNo;

@@ -42,23 +42,24 @@ public class LaunchFragment extends BaseFragment {
                 if(RenterApp.getInstance().getUserInfo()==null){
                     startWithPop(LoginFragment.newInstance(LoginFragment.class));
                 }else {
-                    if(System.currentTimeMillis()<Long.valueOf(RenterApp.getInstance().getUserInfo().tokenTimeOut)){
+                    LoginReq loginReq=new LoginReq();
+                    loginReq.mobile=!TextUtils.isEmpty(RenterApp.getInstance().getUserInfo().mobile)?RenterApp.getInstance().getUserInfo().mobile:RenterApp.getInstance().getUserInfo().username;
+                    loginReq.password=!TextUtils.isEmpty(RenterApp.getInstance().getUserInfo().pwd)?RenterApp.getInstance().getUserInfo().pwd:RenterApp.getInstance().getPwd();
+                    NetEngine.getInstance().sendLoginRequest(_mActivity,new CommonResponseListener<LoginResponse>(){
+                        @Override
+                        public void onSucceed(LoginResponse loginResponse) {
+                            super.onSucceed(loginResponse);
+                            loginResponse.tokenTimeOut=String.valueOf(System.currentTimeMillis()+loginResponse.expire*1000);
+                            RenterApp.getInstance().saveUserInfo(loginResponse);
+                            goOn();
+
+                        }
+                    },fragment_tag,loginReq);
+                   /* if(System.currentTimeMillis()<Long.valueOf(RenterApp.getInstance().getUserInfo().tokenTimeOut)){
                         goOn();
                     }else {
-                        LoginReq loginReq=new LoginReq();
-                        loginReq.mobile=!TextUtils.isEmpty(RenterApp.getInstance().getUserInfo().mobile)?RenterApp.getInstance().getUserInfo().mobile:RenterApp.getInstance().getUserInfo().username;
-                        loginReq.password=RenterApp.getInstance().getUserInfo().pwd;
-                        NetEngine.getInstance().sendLoginRequest(_mActivity,new CommonResponseListener<LoginResponse>(){
-                            @Override
-                            public void onSucceed(LoginResponse loginResponse) {
-                                super.onSucceed(loginResponse);
-                                loginResponse.tokenTimeOut=String.valueOf(System.currentTimeMillis()+loginResponse.expire*1000);
-                                RenterApp.getInstance().saveUserInfo(loginResponse);
-                                goOn();
 
-                            }
-                        },fragment_tag,loginReq);
-                    }
+                    }*/
 
 
 
