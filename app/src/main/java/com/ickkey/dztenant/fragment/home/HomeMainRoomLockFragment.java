@@ -55,7 +55,6 @@ public class HomeMainRoomLockFragment extends BaseFragment {
                 GetLocksIdReq getLocksIdReq=new GetLocksIdReq();
                 getLocksIdReq.locksId=lock.id;
                 getLocksIdReq.token=RenterApp.getInstance().getUserInfo().token;
-                String url= Urls.GET_LOCKS_ID;
                 NetEngine.getInstance().getHttpResult(new CommonResponseListener(){
                     @Override
                     public void onSucceed(Object o) {
@@ -80,7 +79,7 @@ public class HomeMainRoomLockFragment extends BaseFragment {
 
 
                     }
-                },url,GetLocksIdResp.class,_mActivity,getLocksIdReq);
+                }, Urls.GET_LOCKS_ID,GetLocksIdResp.class,_mActivity,getLocksIdReq);
             }
     }
     @Override

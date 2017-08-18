@@ -96,7 +96,6 @@ public class HomeMainFragment extends BaseFragment {
         BaseRequest request=new BaseRequest();
         request.userId= RenterApp.getInstance().getUserInfo().userId;
         request.token=RenterApp.getInstance().getUserInfo().token;
-        String url= Urls.GET_LOCKS;
         NetEngine.getInstance().getHttpResult(new CommonResponseListener() {
             @Override
             public void onSucceed(Object obj) {
@@ -129,7 +128,7 @@ public class HomeMainFragment extends BaseFragment {
                 }
 
             }
-        },url,GetLocksResp.class,_mActivity,request);
+        }, Urls.GET_LOCKS,GetLocksResp.class,_mActivity,request);
     }
 
     @Override
@@ -147,7 +146,6 @@ public class HomeMainFragment extends BaseFragment {
                     getLocksPwdReq.token=RenterApp.getInstance().getUserInfo().token;
                     getLocksPwdReq.locksId=getLocksResp.msg.get(mViewPager.getCurrentItem()).id;
                     getLocksPwdReq.userId=RenterApp.getInstance().getUserInfo().userId;
-                    String url=Urls.GET_LOCK_PWD;
                     NetEngine.getInstance().getHttpResult(new CommonResponseListener(){
                         @Override
                         public void onSucceed(Object object) {
@@ -173,7 +171,7 @@ public class HomeMainFragment extends BaseFragment {
                             popEnterPassword.showAtLocation(rootView,
                                     Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
                         }
-                    },url,GetLocksPwdResp.class,_mActivity,getLocksPwdReq);
+                    },Urls.GET_LOCK_PWD,GetLocksPwdResp.class,_mActivity,getLocksPwdReq);
                    /* GetLocksPwdReq getLocksPwdReq=new GetLocksPwdReq();
                     getLocksPwdReq.token=RenterApp.getInstance().getUserInfo().token;
                     getLocksPwdReq.locksId=resp.msg.get(mViewPager.getCurrentItem()).id;
