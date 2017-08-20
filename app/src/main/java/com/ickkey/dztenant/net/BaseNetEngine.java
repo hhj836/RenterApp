@@ -14,6 +14,10 @@ import com.android.volley.Response;
 import com.ickkey.dztenant.BuildConfig;
 import com.ickkey.dztenant.R;
 import com.ickkey.dztenant.RenterApp;
+import com.ickkey.dztenant.base.BaseFragment;
+import com.ickkey.dztenant.event.LoginOutEvent;
+import com.ickkey.dztenant.fragment.home.HomeFragment;
+import com.ickkey.dztenant.fragment.login.LoginFragment;
 import com.ickkey.dztenant.net.request.BaseRequest;
 import com.ickkey.dztenant.net.request.LoginReq;
 import com.ickkey.dztenant.net.response.BaseResponse;
@@ -24,6 +28,7 @@ import com.ickkey.dztenant.utils.LogUtil;
 import com.ickkey.dztenant.utils.NetUtil;
 import com.ickkey.dztenant.utils.ToastUtils;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -241,20 +246,9 @@ public class BaseNetEngine {
                 btn_confirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        LoginReq loginReq=new LoginReq();
-                        loginReq.mobile=!TextUtils.isEmpty(RenterApp.getInstance().getUserInfo().mobile)?RenterApp.getInstance().getUserInfo().mobile:RenterApp.getInstance().getUserInfo().username;
-                        loginReq.password=!TextUtils.isEmpty(RenterApp.getInstance().getUserInfo().pwd)?RenterApp.getInstance().getUserInfo().pwd:RenterApp.getInstance().getPwd();
-                        NetEngine.getInstance().sendLoginRequest(context,new CommonResponseListener<LoginResponse>(){
-                            @Override
-                            public void onSucceed(LoginResponse loginResponse) {
-                                super.onSucceed(loginResponse);
-                                loginResponse.tokenTimeOut=String.valueOf(System.currentTimeMillis()+loginResponse.expire*1000);
-                                RenterApp.getInstance().saveUserInfo(loginResponse);
-                                ToastUtils.showShortToast(context,"重登成功");
-                                dialog.dismiss();
+                        EventBus.getDefault().post(new LoginOutEvent());
+                        dialog.dismiss();
 
-                            }
-                        },null,loginReq);
                     }
                 });
 

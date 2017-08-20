@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/rl_title_base"
+        android:background="@color/colorPrimaryDark"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/titlebar_height">
+        <com.andexert.library.RippleView
+            app:rv_rippleDuration="@integer/rippleDuration"
+            android:layout_centerVertical="true"
+            android:id="@+id/btn_left_base"
+            android:layout_width="@dimen/titlebar_height"
+            android:layout_height="match_parent"
+            rv_centered="true">
+
+            <TextView
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                android:layout_centerInParent="true"
+                android:id="@+id/tv_left_base"
+                android:background="@drawable/ic_arrow_back_white_24dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </com.andexert.library.RippleView>
+
+        <RelativeLayout
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/btn_left_base"
+            android:layout_toLeftOf="@+id/btn_right_base"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:id="@+id/rl_title_content_base"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:maxWidth="200dp"
+                android:gravity="center"
+                android:id="@+id/tv_title_base"
+                android:text="验证手势密码"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+        <com.andexert.library.RippleView
+            app:rv_rippleDuration="200"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:id="@+id/btn_right_base"
+            android:layout_width="@dimen/titlebar_height"
+            android:layout_height="match_parent"
+            rv_centered="true">
+
+            <TextView
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                android:layout_centerInParent="true"
+                android:id="@+id/tv_right_base"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </com.andexert.library.RippleView>
+
+    </RelativeLayout>
+    <include layout="@layout/fm_gesture_login"></include>
+</LinearLayout>

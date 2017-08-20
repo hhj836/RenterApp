@@ -48,13 +48,14 @@ public class HomePersonalFragment extends BaseFragment {
     public void initView() {
         btn_left_base.setVisibility(View.INVISIBLE);
         setTitle("个人中心");
+        tv_username.setText(RenterApp.getInstance().getUserInfo().username);
 
     }
 
     @Override
     public void onSupportVisible() {
         super.onSupportVisible();
-        tv_username.setText(RenterApp.getInstance().getUserInfo().username);
+
     }
 
     @OnClick({R.id.rl_update_username,R.id.rl_update_pwd,R.id.rl_update_gesture_pwd,R.id.btn_exit})

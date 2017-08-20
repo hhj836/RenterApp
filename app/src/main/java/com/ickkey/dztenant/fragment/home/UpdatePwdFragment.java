@@ -104,16 +104,14 @@ public class UpdatePwdFragment extends BaseFragment {
                         @Override
                         public void onSucceed(BaseResponse baseResponse) {
                             super.onSucceed(baseResponse);
-                            LoginResponse userInfo=RenterApp.getInstance().getUserInfo();
-                            userInfo.pwd=et_pwd_confirm.getText().toString();
-                            RenterApp.getInstance().saveUserInfo(userInfo);
+                            RenterApp.getInstance().setPwd(et_pwd_confirm.getText().toString());
                             showToast("修改成功");
                             pop();
                         }
                     },fragment_tag,updatePwdReq);
                     break;
                 case R.id.btn_check:
-                    if(et_pwd.getText().toString().equals(RenterApp.getInstance().getUserInfo().pwd)){
+                    if(et_pwd.getText().toString().equals(RenterApp.getInstance().getPwd())){
                         step2();
                     }else {
                         showToast("密码不正确");

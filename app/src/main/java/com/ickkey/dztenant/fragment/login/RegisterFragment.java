@@ -233,11 +233,7 @@ public class RegisterFragment extends BaseFragment {
                         @Override
                         public void onSucceed(BaseResponse baseResponse) {
                             super.onSucceed(baseResponse);
-                            LoginResponse userInfo=RenterApp.getInstance().getUserInfo();
-                            if(userInfo!=null){
-                                userInfo.pwd=et_pwd_confirm.getText().toString();
-                                RenterApp.getInstance().saveUserInfo(userInfo);
-                            }
+                            RenterApp.getInstance().setPwd(et_pwd_confirm.getText().toString());
                             showToast("重置密码成功");
                             pop();
                         }

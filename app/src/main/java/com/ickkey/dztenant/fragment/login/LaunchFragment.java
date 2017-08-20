@@ -33,6 +33,7 @@ public class LaunchFragment extends BaseFragment {
 
     @Override
     public void initView() {
+        RenterApp.getInstance().set_mActivity(_mActivity);
         setFragmentAnimator(new FragmentAnimator(R.anim.anim_fade_in,R.anim.anim_fade_out,R.anim.anim_fade_in,R.anim.anim_fade_out));
         setTitleGone();
         handler.postDelayed(new Runnable() {
@@ -43,13 +44,12 @@ public class LaunchFragment extends BaseFragment {
                     startWithPop(LoginFragment.newInstance(LoginFragment.class));
                 }else {
                     LoginReq loginReq=new LoginReq();
-                    loginReq.mobile=!TextUtils.isEmpty(RenterApp.getInstance().getUserInfo().mobile)?RenterApp.getInstance().getUserInfo().mobile:RenterApp.getInstance().getUserInfo().username;
-                    loginReq.password=!TextUtils.isEmpty(RenterApp.getInstance().getUserInfo().pwd)?RenterApp.getInstance().getUserInfo().pwd:RenterApp.getInstance().getPwd();
+                    loginReq.mobile=RenterApp.getInstance().getUserInfo().username;
+                    loginReq.password=RenterApp.getInstance().getPwd();
                     NetEngine.getInstance().sendLoginRequest(_mActivity,new CommonResponseListener<LoginResponse>(){
                         @Override
                         public void onSucceed(LoginResponse loginResponse) {
                             super.onSucceed(loginResponse);
-                            loginResponse.tokenTimeOut=String.valueOf(System.currentTimeMillis()+loginResponse.expire*1000);
                             RenterApp.getInstance().saveUserInfo(loginResponse);
                             goOn();
 

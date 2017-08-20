@@ -47,8 +47,8 @@
             android:background="@drawable/input_bg"
             android:layout_width="216dp"
             android:layout_height="32dp">
+            <!--  android:digits="@string/digits"-->
             <EditText
-                android:digits="@string/digits"
                 android:textColor="@color/global_tv_color"
                 android:background="@null"
                 android:id="@+id/et_username"

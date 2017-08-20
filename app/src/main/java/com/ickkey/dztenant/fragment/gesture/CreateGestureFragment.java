@@ -80,6 +80,7 @@ public class CreateGestureFragment extends BaseFragment {
         @Override
         public void onPatternComplete(List<LockPatternView.Cell> pattern) {
             //Log.e(TAG, "--onPatternDetected--");
+
             if(mChosenPattern == null && pattern.size() >= 4) {
                 mChosenPattern = new ArrayList<LockPatternView.Cell>(pattern);
                 updateStatus(Status.CORRECT, pattern);
@@ -94,7 +95,6 @@ public class CreateGestureFragment extends BaseFragment {
             }
         }
     };
-
     /**
      * 更新状态
      * @param status

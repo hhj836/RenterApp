@@ -70,9 +70,12 @@ public class HomeMainRoomLockFragment extends BaseFragment {
                                         if(lock.isOnlie==1){
                                             rl_bg.setBackgroundResource(R.drawable.circle_green);
                                             waveView.startRippleAnimation();
+                                            tv_status.setText("正常");
+
                                         }else {
                                             rl_bg.setBackgroundResource(R.drawable.circle_gray);
                                             waveView.stopRippleAnimation();
+                                            tv_status.setText("离线");
                                         }
                                     }
                         }

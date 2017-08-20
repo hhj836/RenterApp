@@ -10,8 +10,4 @@ public class LoginResponse extends BaseResponse{
     public String headUrl;
     public String username;
     public String userId;
-    //本地存储
-    public String pwd;
-    public String tokenTimeOut;
-    public String mobile;
 }

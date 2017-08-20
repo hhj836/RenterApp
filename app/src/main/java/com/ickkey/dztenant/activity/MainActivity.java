@@ -1,32 +1,45 @@
 package com.ickkey.dztenant.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 
 import com.ickkey.dztenant.R;
+import com.ickkey.dztenant.RenterApp;
+import com.ickkey.dztenant.event.LoginOutEvent;
+import com.ickkey.dztenant.fragment.home.HomeFragment;
 import com.ickkey.dztenant.fragment.login.LaunchFragment;
 import com.ickkey.dztenant.fragment.login.LoginFragment;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import me.yokeyword.fragmentation.SupportActivity;
 import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator;
 import me.yokeyword.fragmentation.anim.FragmentAnimator;
 
 public class MainActivity extends SupportActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(MainActivity.this);
         setContentView(R.layout.activity_main);
-            loadRootFragment(R.id.fl_container, LoginFragment.newInstance(LaunchFragment.class));
+            loadRootFragment(R.id.fl_container, LaunchFragment.newInstance(LaunchFragment.class));
 
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    @Subscribe(threadMode = ThreadMode.MAIN) //在ui线程执行
+    public void onLoginOut(LoginOutEvent event) {
+            if(RenterApp.getInstance().fragmentMap.get(HomeFragment.class)!=null){
+                RenterApp.getInstance().fragmentMap.get(HomeFragment.class).start(LoginFragment.newInstance(LoginFragment.class));
+            }
+            RenterApp.getInstance().logOut(MainActivity.this);
     }
-
     @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(MainActivity.this);
     }
 
     @Override

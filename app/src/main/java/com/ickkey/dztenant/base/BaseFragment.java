@@ -14,8 +14,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.andexert.library.RippleView;
+import com.ickkey.dztenant.ConstantValues;
 import com.ickkey.dztenant.R;
 import com.ickkey.dztenant.RenterApp;
+import com.ickkey.dztenant.fragment.gesture.CreateGestureFragment;
+import com.ickkey.dztenant.fragment.gesture.GestureLoginFragment;
+import com.ickkey.dztenant.fragment.gesture.LoginPwdCheckFragment;
 import com.ickkey.dztenant.fragment.home.HomeFragment;
 import com.ickkey.dztenant.fragment.home.HomeMainFragment;
 import com.ickkey.dztenant.fragment.login.LoginFragment;
@@ -47,7 +51,9 @@ public abstract class BaseFragment extends BaseBackFragment {
     public final String fragment_tag=getClass().getSimpleName()+ UUID.randomUUID();
     private boolean isPop;
 
-    public static BaseFragment newInstance(Class<? extends  BaseFragment> clazz,Bundle...args) {
+
+
+    public static BaseFragment newInstance(Class<? extends  BaseFragment> clazz, Bundle...args) {
 
         BaseFragment fragment = null;
         try {
@@ -128,6 +134,7 @@ public abstract class BaseFragment extends BaseBackFragment {
             }
         });
         initView();
+        RenterApp.getInstance().addFragment(BaseFragment.this);
         return attachToSwipeBack(view);
 
 
@@ -198,6 +205,7 @@ public abstract class BaseFragment extends BaseBackFragment {
     @Override
     public void onResume() {
         super.onResume();
+
     }
 
     @Override
@@ -208,9 +216,10 @@ public abstract class BaseFragment extends BaseBackFragment {
     @Override
     public void onDestroyView() {
         HttpRequestUtils.getInstance().getRequestQueue().cancelAll(fragment_tag);
-       // LogUtil.info(getClass(),"onDestroyView");
+        LogUtil.info(getClass(),"onDestroyView");
         isPop=true;
         super.onDestroyView();
+        RenterApp.getInstance().removeFragment(BaseFragment.this);
 
     }
 

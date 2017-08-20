@@ -66,9 +66,6 @@ public class LoginFragment extends BaseFragment {
                     @Override
                     public void onSucceed(LoginResponse loginResponse) {
                         super.onSucceed(loginResponse);
-                        loginResponse.mobile=et_username.getText().toString();
-                        loginResponse.pwd=et_pwd.getText().toString();
-                        loginResponse.tokenTimeOut=String.valueOf(System.currentTimeMillis()+loginResponse.expire*1000);
                         RenterApp.getInstance().setPwd(et_pwd.getText().toString());
                         RenterApp.getInstance().saveUserInfo(loginResponse);
                         Bundle bundle=new Bundle();
