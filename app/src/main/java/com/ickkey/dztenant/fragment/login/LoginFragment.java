@@ -36,12 +36,12 @@ public class LoginFragment extends BaseFragment {
     @BindView(R.id.et_pwd)
     EditText et_pwd;
 
-  /*  @Override
+    @Override
     public boolean onBackPressedSupport() {
         LogUtil.info(getClass(),"onBackPressedSupport");
         _mActivity.finish();
         return true;
-    }*/
+    }
 
     @OnClick({R.id.tv_register,R.id.tv_forget_pwd,R.id.btn_login})
     public void onClick(View v){
