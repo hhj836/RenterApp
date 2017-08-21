@@ -1,6 +1,7 @@
 package com.ickkey.dztenant;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import com.ickkey.dztenant.base.BaseFragment;
 import com.ickkey.dztenant.fragment.gesture.CreateGestureFragment;
 import com.ickkey.dztenant.fragment.gesture.GestureLoginFragment;
 import com.ickkey.dztenant.fragment.gesture.LoginPwdCheckFragment;
+import com.ickkey.dztenant.fragment.login.LaunchFragment;
 import com.ickkey.dztenant.fragment.login.LoginFragment;
 import com.ickkey.dztenant.fragment.login.RegisterFragment;
 import com.ickkey.dztenant.net.response.LoginResponse;
@@ -28,6 +30,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import me.yokeyword.fragmentation.ISupportActivity;
+import me.yokeyword.fragmentation.SupportActivity;
 
 
 /**
@@ -40,6 +45,7 @@ public class RenterApp extends MultiDexApplication {
     }
 
     public Map<Class,BaseFragment> fragmentMap=new HashMap<>();
+    public Map<Class,SupportActivity> activityMap=new HashMap<>();
     private   Handler handler=new Handler(Looper.getMainLooper());
     public static RenterApp getInstance() {
         return instance;
@@ -56,11 +62,11 @@ public class RenterApp extends MultiDexApplication {
     private SharedPreferences sharedPreferences;
     private int mFinalCount;
 
-    public void set_mActivity(FragmentActivity _mActivity) {
+    public void set_mActivity(SupportActivity _mActivity) {
         this._mActivity = _mActivity;
     }
 
-    private FragmentActivity _mActivity;
+    private SupportActivity _mActivity;
 
     @Override
     public void onCreate() {
@@ -83,6 +89,7 @@ public class RenterApp extends MultiDexApplication {
                 if (mFinalCount == 1){
                     //说明从后台回到了前台
                     LogUtil.info(getClass(), mFinalCount +"说明从后台回到了前台");
+                    LogUtil.info(getClass(), _mActivity +"=_mActivity"+"=isShowGesture="+isShowGesture()+"=" + "userInfo=="+userInfo);
                     if(_mActivity!=null&&isShowGesture()&&userInfo!=null){
                         Intent intent=new Intent();
                         intent.setClass(_mActivity, GestureLoginActivity.class);
@@ -124,8 +131,10 @@ public class RenterApp extends MultiDexApplication {
         });
     }
     public boolean isShowGesture(){
-        return  !fragmentMap.containsKey(CreateGestureFragment.class)&&!fragmentMap.containsKey(GestureLoginFragment.class)
-                &&!fragmentMap.containsKey(RegisterFragment.class)  &&!fragmentMap.containsKey(LoginPwdCheckFragment.class);
+        return  _mActivity.findFragment(CreateGestureFragment.class)==null&&_mActivity.findFragment(GestureLoginFragment.class)==null
+                &&_mActivity.findFragment(RegisterFragment.class)==null&&_mActivity.findFragment(LoginPwdCheckFragment.class)==null
+                &&_mActivity.findFragment(LaunchFragment.class)==null
+                &&!activityMap.containsKey(GestureLoginActivity.class);
     }
     public LoginResponse getUserInfo(){
         if(userInfo==null){
@@ -144,6 +153,7 @@ public class RenterApp extends MultiDexApplication {
         fragmentMap.put(fragment.getClass(),fragment);
     }
     public void removeFragment(BaseFragment fragment){
+        LogUtil.info(getClass(),"移除--"+fragment.getClass());
         fragmentMap.remove(fragment);
     }
     public void setPwd(String pwd){
@@ -152,11 +162,11 @@ public class RenterApp extends MultiDexApplication {
     public String getPwd(){
        return sharedPreferences.getString("pwd",null);
     }
-    public void logOut(FragmentActivity...fragmentActivity){
+    public void logOut(){
         userInfo=null;
         aCache.clear();
         sharedPreferences.edit().clear().commit();
-        if(fragmentActivity.length>0){
+      /*  if(fragmentActivity.length>0){
             for (Map.Entry<Class, BaseFragment> entry : fragmentMap.entrySet()) {
                 BaseFragment fragment=entry.getValue();
                 if(fragment.getClass()== LoginFragment.class){
@@ -164,7 +174,7 @@ public class RenterApp extends MultiDexApplication {
                 }
                 fragmentActivity[0].getSupportFragmentManager().beginTransaction().remove(fragment).commitAllowingStateLoss();
             }
-        }
+        }*/
         fragmentMap.clear();
 
     }

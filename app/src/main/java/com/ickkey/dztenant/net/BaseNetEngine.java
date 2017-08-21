@@ -246,8 +246,8 @@ public class BaseNetEngine {
                 btn_confirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        EventBus.getDefault().post(new LoginOutEvent());
                         dialog.dismiss();
+                        EventBus.getDefault().post(new LoginOutEvent());
 
                     }
                 });

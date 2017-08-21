@@ -14,6 +14,7 @@ import com.ickkey.dztenant.ConstantValues;
 import com.ickkey.dztenant.R;
 import com.ickkey.dztenant.RenterApp;
 import com.ickkey.dztenant.base.BaseFragment;
+import com.ickkey.dztenant.event.LoginOutEvent;
 import com.ickkey.dztenant.fragment.gesture.GestureLoginFragment;
 import com.ickkey.dztenant.fragment.login.LoginFragment;
 import com.ickkey.dztenant.net.CommonResponseListener;
@@ -21,6 +22,8 @@ import com.ickkey.dztenant.net.NetEngine;
 import com.ickkey.dztenant.net.request.UpdateUserNameReq;
 import com.ickkey.dztenant.net.response.BaseResponse;
 import com.ickkey.dztenant.utils.DialogUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -122,9 +125,7 @@ public class HomePersonalFragment extends BaseFragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
-                        RenterApp.getInstance().logOut();
-
-                        homeFragment.startWithPop(LoginFragment.newInstance(LoginFragment.class));
+                        EventBus.getDefault().post(new LoginOutEvent());
 
                     }
                 }, new DialogInterface.OnClickListener() {

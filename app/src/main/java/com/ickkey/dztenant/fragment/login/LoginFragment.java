@@ -17,6 +17,7 @@ import com.ickkey.dztenant.net.NetEngine;
 import com.ickkey.dztenant.net.request.LoginReq;
 import com.ickkey.dztenant.net.response.LoginResponse;
 import com.ickkey.dztenant.utils.DialogUtils;
+import com.ickkey.dztenant.utils.LogUtil;
 
 
 import butterknife.BindView;
@@ -35,6 +36,12 @@ public class LoginFragment extends BaseFragment {
     @BindView(R.id.et_pwd)
     EditText et_pwd;
 
+  /*  @Override
+    public boolean onBackPressedSupport() {
+        LogUtil.info(getClass(),"onBackPressedSupport");
+        _mActivity.finish();
+        return true;
+    }*/
 
     @OnClick({R.id.tv_register,R.id.tv_forget_pwd,R.id.btn_login})
     public void onClick(View v){
@@ -70,11 +77,7 @@ public class LoginFragment extends BaseFragment {
                         RenterApp.getInstance().saveUserInfo(loginResponse);
                         Bundle bundle=new Bundle();
                         bundle.putInt(ConstantValues.GESTURE_PAGER_TYPE, ConstantValues.GESTURE_HANDLE_LOGIN_IN);
-                        if(RenterApp.getInstance().getCache().getAsBinary(ConstantValues.GESTURE_PASSWORD)!=null){
-                            startWithPop(GestureLoginFragment.newInstance(GestureLoginFragment.class,bundle));
-                        }else {
-                            startWithPop(CreateGestureFragment.newInstance(CreateGestureFragment.class,bundle));
-                        }
+                        start(CreateGestureFragment.newInstance(CreateGestureFragment.class,bundle));
 
                     }
                 },fragment_tag,loginReq);

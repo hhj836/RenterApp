@@ -15,6 +15,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import me.yokeyword.fragmentation.ISupportFragment;
 import me.yokeyword.fragmentation.SupportActivity;
 import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator;
 import me.yokeyword.fragmentation.anim.FragmentAnimator;
@@ -25,16 +26,20 @@ public class MainActivity extends SupportActivity {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(MainActivity.this);
         setContentView(R.layout.activity_main);
-            loadRootFragment(R.id.fl_container, LaunchFragment.newInstance(LaunchFragment.class));
+        loadRootFragment(R.id.fl_container, LaunchFragment.newInstance(LaunchFragment.class));
+        RenterApp.getInstance().set_mActivity(MainActivity.this);
 
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN) //在ui线程执行
     public void onLoginOut(LoginOutEvent event) {
+
             if(RenterApp.getInstance().fragmentMap.get(HomeFragment.class)!=null){
-                RenterApp.getInstance().fragmentMap.get(HomeFragment.class).start(LoginFragment.newInstance(LoginFragment.class));
+                LoginFragment loginFragment= RenterApp.getInstance().fragmentMap.get(HomeFragment.class).findFragment(LoginFragment.class);
+                RenterApp.getInstance().fragmentMap.get(HomeFragment.class).start(loginFragment==null?LoginFragment.newInstance(LoginFragment.class):loginFragment, ISupportFragment.SINGLETASK);
             }
-            RenterApp.getInstance().logOut(MainActivity.this);
+        RenterApp.getInstance().logOut();
+
     }
     @Override
     protected void onDestroy() {

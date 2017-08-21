@@ -230,7 +230,6 @@ public abstract class BaseFragment extends BaseBackFragment {
 
 
     }
-
     @Override
     public void startWithPop(final ISupportFragment toFragment) {
         if(FragmentationHack.isStateSaved(getFragmentManager())){

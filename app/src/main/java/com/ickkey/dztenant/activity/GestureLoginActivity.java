@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 
 import com.ickkey.dztenant.ConstantValues;
 import com.ickkey.dztenant.R;
+import com.ickkey.dztenant.RenterApp;
 import com.ickkey.dztenant.fragment.gesture.GestureLoginFragment;
 import com.ickkey.dztenant.fragment.login.LaunchFragment;
 import com.ickkey.dztenant.utils.cache.ACache;
@@ -27,6 +28,12 @@ public class GestureLoginActivity extends SupportActivity {
         Bundle bundle=new Bundle();
         bundle.putInt(ConstantValues.GESTURE_PAGER_TYPE, ConstantValues.GESTURE_HANDLE_HOME_IN);
         loadRootFragment(R.id.fl_container, GestureLoginFragment.newInstance(GestureLoginFragment.class,bundle));
+        RenterApp.getInstance().activityMap.put(GestureLoginActivity.class,GestureLoginActivity.this);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        RenterApp.getInstance().activityMap.remove(GestureLoginActivity.class);
+    }
 }

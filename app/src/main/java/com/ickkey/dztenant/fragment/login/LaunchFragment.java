@@ -15,6 +15,7 @@ import com.ickkey.dztenant.net.NetEngine;
 import com.ickkey.dztenant.net.request.LoginReq;
 import com.ickkey.dztenant.net.response.LoginResponse;
 
+import me.yokeyword.fragmentation.SupportActivity;
 import me.yokeyword.fragmentation.anim.FragmentAnimator;
 
 /**
@@ -28,12 +29,7 @@ public class LaunchFragment extends BaseFragment {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
-    }
-
-    @Override
     public void initView() {
-        RenterApp.getInstance().set_mActivity(_mActivity);
         setFragmentAnimator(new FragmentAnimator(R.anim.anim_fade_in,R.anim.anim_fade_out,R.anim.anim_fade_in,R.anim.anim_fade_out));
         setTitleGone();
         handler.postDelayed(new Runnable() {
@@ -55,13 +51,6 @@ public class LaunchFragment extends BaseFragment {
 
                         }
                     },fragment_tag,loginReq);
-                   /* if(System.currentTimeMillis()<Long.valueOf(RenterApp.getInstance().getUserInfo().tokenTimeOut)){
-                        goOn();
-                    }else {
-
-                    }*/
-
-
 
                 }
             }

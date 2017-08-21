@@ -55,7 +55,7 @@ public class GestureLoginFragment extends BaseFragment {
             btn_left_base.setOnRippleCompleteListener(new RippleView.OnRippleCompleteListener() {
                 @Override
                 public void onComplete(RippleView rippleView) {
-                     RenterApp.getInstance().logOut(_mActivity);
+                     RenterApp.getInstance().logOut();
                     startWithPop(LoginFragment.newInstance(LoginFragment.class));
                 }
             });
