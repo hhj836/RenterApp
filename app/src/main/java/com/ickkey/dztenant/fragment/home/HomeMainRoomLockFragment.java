@@ -51,6 +51,10 @@ public class HomeMainRoomLockFragment extends BaseFragment {
     HomeMainFragment homeMainFragment;
     @OnClick({R.id.rl_bg})
     public void onClick(){
+        if(RenterApp.getInstance().getUserInfo().isVisitor==0){
+            showToast("你未被授权门锁，无法刷新");
+            return;
+        }
             if(lock!=null){
                 GetLocksIdReq getLocksIdReq=new GetLocksIdReq();
                 getLocksIdReq.locksId=lock.id;
@@ -100,8 +104,10 @@ public class HomeMainRoomLockFragment extends BaseFragment {
             if(lock.isOnlie==1){
                 rl_bg.setBackgroundResource(R.drawable.circle_green);
                 waveView.startRippleAnimation();
+                tv_status.setText("正常");
             }else {
                 rl_bg.setBackgroundResource(R.drawable.circle_gray);
+                tv_status.setText("离线");
             }
         }
 

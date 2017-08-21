@@ -10,4 +10,5 @@ public class LoginResponse extends BaseResponse{
     public String headUrl;
     public String username;
     public String userId;
+    public int isVisitor;
 }

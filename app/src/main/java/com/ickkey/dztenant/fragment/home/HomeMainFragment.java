@@ -37,6 +37,7 @@ import net.lucode.hackware.magicindicator.ViewPagerHelper;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -61,6 +62,8 @@ public class HomeMainFragment extends BaseFragment {
     FragmentPagerAdapter  fragmentPagerAdapter;
     HomeFragment homeFragment;
      GetLocksResp getLocksResp;
+    public List<GetLocksResp.LockItem> defaultLocks=new ArrayList<>();
+
     public void setHomeFragment(HomeFragment homeFragment) {
         this.homeFragment = homeFragment;
     }
@@ -69,11 +72,49 @@ public class HomeMainFragment extends BaseFragment {
         return R.layout.fm_home_main;
     }
 
+
     @Override
     public void initView() {
         setTitle(getString(R.string.text_main_pager));
         btn_left_base.setVisibility(View.INVISIBLE);
-        getLocks();
+        if(RenterApp.getInstance().getUserInfo().isVisitor==0){
+            for(int i=0;i<2;i++){
+                GetLocksResp  getLocksResp=new GetLocksResp();
+                GetLocksResp.LockItem item=getLocksResp.new LockItem();
+                item.isOnlie=1;
+                item.installAddress="虚拟门锁0"+(i+1);
+                item.quantity=100;
+                defaultLocks.add(item);
+            }
+
+            fragmentPagerAdapter=new PagerAdapter(getChildFragmentManager(),defaultLocks);
+            lock_desc.setText(defaultLocks.get(0).installAddress);
+            mViewPager.setOffscreenPageLimit(defaultLocks.size());
+            mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    lock_desc.setText(defaultLocks.get(position).installAddress);
+
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
+            mViewPager.setAdapter(fragmentPagerAdapter);
+            initMagicIndicator();
+            ll_custom_pwd.setClickable(true);
+
+        }else {
+            getLocks();
+        }
+
     }
     public  void  getLocks(){
         DialogUtils.showProgressDialog(_mActivity);
@@ -141,6 +182,11 @@ public class HomeMainFragment extends BaseFragment {
     public void onClick(View v){
         switch (v.getId()){
             case R.id.ll_custom_pwd:
+                if(RenterApp.getInstance().getUserInfo().isVisitor==0){
+                    showToast("你未被授权门锁，无法自定义密码");
+                    return;
+                }
+
                 if(getLocksResp!=null){
                     GetLocksPwdReq getLocksPwdReq=new GetLocksPwdReq();
                     getLocksPwdReq.token=RenterApp.getInstance().getUserInfo().token;
@@ -242,7 +288,7 @@ public class HomeMainFragment extends BaseFragment {
 
         @Override
         public int getCount() {
-            return 2;
+            return locks.size();
         }
     }
 }
