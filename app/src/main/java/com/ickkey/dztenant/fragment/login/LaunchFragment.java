@@ -36,7 +36,7 @@ public class LaunchFragment extends BaseFragment {
             @Override
             public void run() {
 
-                if(RenterApp.getInstance().getUserInfo()==null){
+                if(TextUtils.isEmpty(RenterApp.getInstance().getPwd())){
                     startWithPop(LoginFragment.newInstance(LoginFragment.class));
                 }else {
                     LoginReq loginReq=new LoginReq();

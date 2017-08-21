@@ -5,4 +5,7 @@
     <color name="blue_01aaee">#01AAEE</color>
     <color name="blue_00aaee">#00AAEE</color>
     <color name="red_f3323b">#F3323B</color>
+    <color name="default_979797">#979797</color>
+    <color name="global_green">#54faa8</color>
+    <color name="global_blue">#63aeff</color>
 </resources>

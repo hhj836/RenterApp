@@ -183,7 +183,7 @@ public class LockPatternView extends View {
 	 * cell box width, cell box height)
 	 */
 	private void initCellSize(){
-		this.cellRadius = (this.width - offset * 2)/4/2;
+		this.cellRadius = (this.width - offset * 2)/8/2;
 		this.cellInnerRadius = this.cellRadius/3;
 		this.cellBoxWidth = (this.width - offset * 2)/3;
 		this.cellBoxHeight = (this.height - offset * 2)/3;
@@ -221,13 +221,13 @@ public class LockPatternView extends View {
 	 */
 	private void initPaints(){
 		defaultPaint = new Paint();
-		defaultPaint.setColor(getResources().getColor(R.color.blue_78d2f6));
+		defaultPaint.setColor(getResources().getColor(R.color.default_979797));
 		defaultPaint.setStrokeWidth(2.0f);
 		defaultPaint.setStyle(Style.STROKE);
 		defaultPaint.setAntiAlias(true);
 		
 		selectPaint = new Paint();
-		selectPaint.setColor(getResources().getColor(R.color.blue_00aaee));
+		selectPaint.setColor(getResources().getColor(R.color.global_blue));
 		selectPaint.setStrokeWidth(3.0f);
 		//selectPaint.setStyle(Style.STROKE);
 		selectPaint.setAntiAlias(true);

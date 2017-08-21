@@ -75,20 +75,20 @@ public class LockPatternIndicator extends View {
 	}
 	
 	private void initRadius() {
-		this.radius = (this.width - offset*2)/4/2;
+		this.radius = (this.width - offset*2)/6/2;
 		this.cellBoxHeight = (this.height - offset*2)/3;
 		this.cellBoxWidth = (this.width - offset*2)/3;
 	}
 	
 	private void initPaint() {
 		defaultPaint = new Paint();
-		defaultPaint.setColor(getResources().getColor(R.color.grey_b2b2b2));
+		defaultPaint.setColor(getResources().getColor(R.color.default_979797));
 		defaultPaint.setStrokeWidth(3.0f);
 		defaultPaint.setStyle(Style.STROKE);
 		defaultPaint.setAntiAlias(true);
 		
 		selectPaint = new Paint();
-		selectPaint.setColor(getResources().getColor(R.color.blue_01aaee));
+		selectPaint.setColor(getResources().getColor(R.color.global_blue));
 		selectPaint.setStrokeWidth(3.0f);
 		selectPaint.setStyle(Style.FILL);
 		selectPaint.setAntiAlias(true);

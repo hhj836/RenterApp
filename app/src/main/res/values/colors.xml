@@ -9,7 +9,9 @@
     <color name="global_tv_hint_color">#d1d1d1</color>
     <color name="global_green">#54faa8</color>
     <color name="global_black">#FF374249</color>
+    <color name="global_blue">#63aeff</color>
     <color name="global_yellow">#FFFDA744</color>
     <color name="gesture_error">#FF0000</color>
     <color name="update_btn_disable">#d8d8d8</color>
+    <color name="line_color">#979797</color>
 </resources>

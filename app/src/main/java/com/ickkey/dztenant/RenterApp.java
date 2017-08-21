@@ -164,7 +164,6 @@ public class RenterApp extends MultiDexApplication {
     }
     public void logOut(){
         userInfo=null;
-        aCache.clear();
         sharedPreferences.edit().clear().commit();
       /*  if(fragmentActivity.length>0){
             for (Map.Entry<Class, BaseFragment> entry : fragmentMap.entrySet()) {

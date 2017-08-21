@@ -7,10 +7,10 @@
 
     <com.star.lockpattern.widget.LockPatternIndicator
         android:id="@+id/lockPatterIndicator"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="30dp" />
 
     <TextView
         android:gravity="center"
@@ -22,12 +22,16 @@
         android:text="@string/create_gesture_default"
         android:textColor="@color/global_yellow"
         android:textSize="16sp" />
-
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <LinearLayout
+        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
+       android:layout_marginBottom="20dp"
         android:orientation="vertical">
 
         <com.star.lockpattern.widget.LockPatternView
@@ -49,5 +53,5 @@
 
     </LinearLayout>
 
-
+</RelativeLayout>
 </LinearLayout>

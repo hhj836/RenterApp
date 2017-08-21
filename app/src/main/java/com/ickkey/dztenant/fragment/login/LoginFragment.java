@@ -77,12 +77,15 @@ public class LoginFragment extends BaseFragment {
                         RenterApp.getInstance().saveUserInfo(loginResponse);
                         Bundle bundle=new Bundle();
                         bundle.putInt(ConstantValues.GESTURE_PAGER_TYPE, ConstantValues.GESTURE_HANDLE_LOGIN_IN);
-                        start(CreateGestureFragment.newInstance(CreateGestureFragment.class,bundle));
+                        if(RenterApp.getInstance().getCache().getAsBinary(ConstantValues.GESTURE_PASSWORD+loginResponse.userId)!=null){
+                            start(GestureLoginFragment.newInstance(GestureLoginFragment.class,bundle));
+                        }else {
+                            start(CreateGestureFragment.newInstance(CreateGestureFragment.class,bundle));
+                        }
+
 
                     }
                 },fragment_tag,loginReq);
-
-
                 break;
             case R.id.tv_forget_pwd:
                 Bundle bundle=new Bundle();

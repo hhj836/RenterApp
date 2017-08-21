@@ -7,9 +7,6 @@ import com.ickkey.dztenant.ConstantValues;
 import com.ickkey.dztenant.R;
 import com.ickkey.dztenant.RenterApp;
 import com.ickkey.dztenant.fragment.gesture.GestureLoginFragment;
-import com.ickkey.dztenant.fragment.login.LaunchFragment;
-import com.ickkey.dztenant.utils.cache.ACache;
-import butterknife.ButterKnife;
 import me.yokeyword.fragmentation.SupportActivity;
 
 /**

@@ -165,7 +165,7 @@ public class CreateGestureFragment extends BaseFragment {
      */
     private void saveChosenPattern(List<LockPatternView.Cell> cells) {
         byte[] bytes = LockPatternUtil.patternToHash(cells);
-        aCache.put(ConstantValues.GESTURE_PASSWORD, bytes);
+        aCache.put(ConstantValues.GESTURE_PASSWORD+RenterApp.getInstance().getUserInfo().userId, bytes);
     }
 
     private enum Status {
