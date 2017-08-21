@@ -532,7 +532,14 @@ public class LockPatternView extends View {
 			for (int j = 0; j < mCells[i].length; j++) {
 				Cell cell = mCells[i][j];
 				if (LockPatternUtil.checkInRound(cell.x, cell.y, 80, x, y, this.cellRadius/4)) {
-					return cell;
+					if(sCells.size()>0){
+						if(Math.abs(sCells.get(sCells.size()-1).column-cell.column)<=1&&Math.abs(sCells.get(sCells.size()-1).row-cell.row)<=1){
+							return  cell;
+						}
+					}else {
+						return cell;
+					}
+
 				}
 			}
 		}
