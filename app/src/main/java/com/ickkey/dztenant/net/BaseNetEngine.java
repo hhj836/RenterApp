@@ -254,7 +254,7 @@ public class BaseNetEngine {
 
             }
         });
-             /*   dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+                dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
                     @Override
                     public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
                         if (keyCode == KeyEvent.KEYCODE_BACK)
@@ -262,7 +262,7 @@ public class BaseNetEngine {
 
                         return false;
                     }
-                });*/
+                });
     }
     private  void reflect(final Class clazz, final Map<String,Object> params,
                         final Object requestObj) {
