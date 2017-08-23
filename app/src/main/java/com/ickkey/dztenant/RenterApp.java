@@ -11,6 +11,7 @@ import android.preference.PreferenceManager;
 import android.support.multidex.MultiDexApplication;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.ickkey.dztenant.activity.GestureLoginActivity;
@@ -90,7 +91,7 @@ public class RenterApp extends MultiDexApplication {
                     //说明从后台回到了前台
                     LogUtil.info(getClass(), mFinalCount +"说明从后台回到了前台");
                     LogUtil.info(getClass(), _mActivity +"=_mActivity"+"=isShowGesture="+isShowGesture()+"=" + "userInfo=="+userInfo);
-                    if(_mActivity!=null&&isShowGesture()&&userInfo!=null){
+                    if(_mActivity!=null&&isShowGesture()&&!TextUtils.isEmpty(getPwd())){
                         Intent intent=new Intent();
                         intent.setClass(_mActivity, GestureLoginActivity.class);
                         _mActivity.startActivity(intent);

@@ -62,7 +62,7 @@ public class LaunchFragment extends BaseFragment {
     public void goOn(){
         Bundle bundle=new Bundle();
         bundle.putInt(ConstantValues.GESTURE_PAGER_TYPE, ConstantValues.GESTURE_HANDLE_LOGIN_IN);
-        if(RenterApp.getInstance().getCache().getAsBinary(ConstantValues.GESTURE_PASSWORD)!=null){
+        if(RenterApp.getInstance().getCache().getAsBinary(ConstantValues.GESTURE_PASSWORD+RenterApp.getInstance().getUserInfo().userId)!=null){
             startWithPop(GestureLoginFragment.newInstance(GestureLoginFragment.class,bundle));
         }else {
             startWithPop(CreateGestureFragment.newInstance(CreateGestureFragment.class,bundle));
