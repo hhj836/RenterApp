@@ -238,7 +238,7 @@ public abstract class BaseFragment extends BaseBackFragment {
                 public void run() {
                     while (FragmentationHack.isStateSaved(getFragmentManager())&&!isPop){
                         try {
-                            Thread.sleep(500);
+                            Thread.sleep(100);
                             LogUtil.info(getClass(),"startWithPop---sleep---");
                         } catch (InterruptedException e) {
                             e.printStackTrace();

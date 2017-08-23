@@ -56,9 +56,12 @@ public class LoginPwdCheckFragment extends BaseFragment {
                             GestureLoginFragment fragment=findFragment(GestureLoginFragment.class);
                             fragment.getFragmentManager().beginTransaction().remove(fragment).commitAllowingStateLoss();
                         }
-                        startWithPop(HomeFragment.newInstance(HomeFragment.class));
+                        startWithPop(CreateGestureFragment.newInstance(CreateGestureFragment.class));
                     }else {
-                        _mActivity.finish();
+
+                        Bundle bundle=new Bundle();
+                        bundle.putInt(ConstantValues.GESTURE_PAGER_TYPE, ConstantValues.GESTURE_HANDLE_UPDATE);
+                        startWithPop(CreateGestureFragment.newInstance(CreateGestureFragment.class,bundle));
                     }
 
                 }else {

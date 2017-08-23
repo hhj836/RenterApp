@@ -153,7 +153,7 @@ public class HomeMainFragment extends BaseFragment {
 
                         @Override
                         public void onPageSelected(int position) {
-                            lock_desc.setText(getLocksResp.msg.get(position).installAddress);
+                            lock_desc.setText(getLocksResp.msg.get(position).houseNumber);
 
                         }
 
@@ -178,6 +178,32 @@ public class HomeMainFragment extends BaseFragment {
         super.onDestroyView();
 
     }
+    private  void setCustomPwd(){
+        if(getLocksResp!=null){
+            GetLocksPwdReq getLocksPwdReq=new GetLocksPwdReq();
+            getLocksPwdReq.token=RenterApp.getInstance().getUserInfo().token;
+            getLocksPwdReq.locksId=getLocksResp.msg.get(mViewPager.getCurrentItem()).id;
+            getLocksPwdReq.userId=RenterApp.getInstance().getUserInfo().userId;
+            NetEngine.getInstance().getHttpResult(new CommonResponseListener(){
+                @Override
+                public void onSucceed(Object object) {
+                    super.onSucceed(object);
+                    GetLocksPwdResp getLocksPwdResp= (GetLocksPwdResp) object;
+                    PopEnterPassword popEnterPassword = new PopEnterPassword(_mActivity, getLocksPwdResp.msg.pwdId, new PopEnterPassword.onUpdateSucceedListener() {
+                        @Override
+                        public void onSucceed() {
+                            showToast("设置成功");
+
+                        }
+                    });
+                    popEnterPassword.showAtLocation(rootView,
+                            Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+                }
+            },Urls.GET_LOCK_PWD,GetLocksPwdResp.class,_mActivity,getLocksPwdReq);
+
+
+        }
+    }
     @OnClick({R.id.ll_custom_pwd})
     public void onClick(View v){
         switch (v.getId()){
@@ -186,39 +212,29 @@ public class HomeMainFragment extends BaseFragment {
                     showToast("你未被授权门锁，无法自定义密码");
                     return;
                 }
+                DialogUtils.showDialog(_mActivity, R.layout.dialog_uplockspwd_succeed, true, new DialogUtils.CustomizeAction() {
+                    @Override
+                    public void setCustomizeAction(final AlertDialog dialog, View view) {
+                        TextView btn_confirm= (TextView) view.findViewById(R.id.btn_confirm);
+                        TextView btn_cancel= (TextView) view.findViewById(R.id.btn_cancel);
+                        btn_cancel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                            }
+                        });
+                        btn_confirm.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                dialog.dismiss();
+                                setCustomPwd();
 
-                if(getLocksResp!=null){
-                    GetLocksPwdReq getLocksPwdReq=new GetLocksPwdReq();
-                    getLocksPwdReq.token=RenterApp.getInstance().getUserInfo().token;
-                    getLocksPwdReq.locksId=getLocksResp.msg.get(mViewPager.getCurrentItem()).id;
-                    getLocksPwdReq.userId=RenterApp.getInstance().getUserInfo().userId;
-                    NetEngine.getInstance().getHttpResult(new CommonResponseListener(){
-                        @Override
-                        public void onSucceed(Object object) {
-                            super.onSucceed(object);
-                            GetLocksPwdResp getLocksPwdResp= (GetLocksPwdResp) object;
-                            PopEnterPassword popEnterPassword = new PopEnterPassword(_mActivity, getLocksPwdResp.msg.pwdId, new PopEnterPassword.onUpdateSucceedListener() {
-                                @Override
-                                public void onSucceed() {
-                                    DialogUtils.showDialog(_mActivity, R.layout.dialog_uplockspwd_succeed, true, new DialogUtils.CustomizeAction() {
-                                        @Override
-                                        public void setCustomizeAction(final AlertDialog dialog, View view) {
-                                            TextView btn_confirm= (TextView) view.findViewById(R.id.btn_confirm);
-                                            btn_confirm.setOnClickListener(new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View view) {
-                                                    dialog.dismiss();
-                                                }
-                                            });
-                                        }
-                                    });
-                                }
-                            });
-                            popEnterPassword.showAtLocation(rootView,
-                                    Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-                        }
-                    },Urls.GET_LOCK_PWD,GetLocksPwdResp.class,_mActivity,getLocksPwdReq);
-                   /* GetLocksPwdReq getLocksPwdReq=new GetLocksPwdReq();
+                            }
+                        });
+                    }
+                });
+
+                 /* GetLocksPwdReq getLocksPwdReq=new GetLocksPwdReq();
                     getLocksPwdReq.token=RenterApp.getInstance().getUserInfo().token;
                     getLocksPwdReq.locksId=resp.msg.get(mViewPager.getCurrentItem()).id;
                     getLocksPwdReq.userId=RenterApp.getInstance().getUserInfo().userId;
@@ -249,8 +265,6 @@ public class HomeMainFragment extends BaseFragment {
 
                         }
                     },fragment_tag,getLocksPwdReq);*/
-
-                }
                 break;
         }
     }

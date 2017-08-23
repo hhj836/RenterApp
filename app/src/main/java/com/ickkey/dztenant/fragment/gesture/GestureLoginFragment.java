@@ -72,12 +72,19 @@ public class GestureLoginFragment extends BaseFragment {
         }
         setTitle("验证手势密码");
         aCache= RenterApp.getInstance().getCache();
-        gesturePassword = aCache.getAsBinary(ConstantValues.GESTURE_PASSWORD+RenterApp.getInstance().getUserInfo().userId);
 
 
         lockPatternView.setOnPatternListener(patternListener);
         updateStatus(Status.DEFAULT);
     }
+
+    @Override
+    public void onSupportVisible() {
+        super.onSupportVisible();
+        gesturePassword = aCache.getAsBinary(ConstantValues.GESTURE_PASSWORD+RenterApp.getInstance().getUserInfo().userId);
+
+    }
+
     @Override
     public boolean onBackPressedSupport() {
         if(inType== ConstantValues.GESTURE_HANDLE_LOGIN_IN){

@@ -85,10 +85,10 @@ public class HomePersonalFragment extends BaseFragment {
                                     showToast("请输入用户名");
                                     return;
                                 }
-                              /*  if(et_username.getText().toString().length()<6){
+                                if(et_username.getText().toString().length()<6){
                                     showToast("用户名最少6位");
                                     return;
-                                }*/
+                                }
                                 DialogUtils.showProgressDialog(_mActivity);
                                 UpdateUserNameReq updateUserNameReq=new UpdateUserNameReq();
                                 updateUserNameReq.token=RenterApp.getInstance().getUserInfo().token;

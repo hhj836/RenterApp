@@ -3,6 +3,7 @@ package com.ickkey.dztenant.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.support.v4.app.FragmentationHack;
 
 import com.ickkey.dztenant.R;
 import com.ickkey.dztenant.RenterApp;
@@ -10,6 +11,7 @@ import com.ickkey.dztenant.event.LoginOutEvent;
 import com.ickkey.dztenant.fragment.home.HomeFragment;
 import com.ickkey.dztenant.fragment.login.LaunchFragment;
 import com.ickkey.dztenant.fragment.login.LoginFragment;
+import com.ickkey.dztenant.utils.LogUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -35,10 +37,31 @@ public class MainActivity extends SupportActivity {
     public void onLoginOut(LoginOutEvent event) {
 
             if(RenterApp.getInstance().fragmentMap.get(HomeFragment.class)!=null){
-                LoginFragment loginFragment= RenterApp.getInstance().fragmentMap.get(HomeFragment.class).findFragment(LoginFragment.class);
-                RenterApp.getInstance().fragmentMap.get(HomeFragment.class).start(loginFragment==null?LoginFragment.newInstance(LoginFragment.class):loginFragment, ISupportFragment.SINGLETASK);
+                new Thread(){
+                    @Override
+                    public void run() {
+
+                        while (FragmentationHack.isStateSaved(RenterApp.getInstance().fragmentMap.get(HomeFragment.class).getFragmentManager())){
+                            LogUtil.info(getClass(),"isStateSaved---");
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                        RenterApp.getInstance().getMainThreadHandler().post(new Runnable() {
+                            @Override
+                            public void run() {
+                                LoginFragment loginFragment= RenterApp.getInstance().fragmentMap.get(HomeFragment.class).findFragment(LoginFragment.class);
+                                RenterApp.getInstance().fragmentMap.get(HomeFragment.class).start(loginFragment==null?LoginFragment.newInstance(LoginFragment.class):loginFragment, ISupportFragment.SINGLETASK);
+                                RenterApp.getInstance().logOut();
+                            }
+                        });
+                    }
+                }.start();
+
             }
-        RenterApp.getInstance().logOut();
 
     }
     @Override

@@ -43,6 +43,12 @@ public class LoginFragment extends BaseFragment {
         return true;
     }
 
+    @Override
+    public void onSupportVisible() {
+        et_username.setText("");
+        et_pwd.setText("");
+    }
+
     @OnClick({R.id.tv_register,R.id.tv_forget_pwd,R.id.btn_login})
     public void onClick(View v){
         switch (v.getId()){

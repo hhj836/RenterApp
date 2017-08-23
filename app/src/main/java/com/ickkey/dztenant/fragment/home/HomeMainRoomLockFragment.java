@@ -68,7 +68,6 @@ public class HomeMainRoomLockFragment extends BaseFragment {
                             lock=getLocksIdResp.msg;
                                     if(lock!=null){
                                         showToast("刷新成功");
-                                        LogUtil.info(getClass(),"sssssss="+lock.installAddress);
                                         rl_bg.setVisibility(View.VISIBLE);
                                         tv_electric.setText("电量"+lock.quantity+"%");
                                         if(lock.isOnlie==1){
