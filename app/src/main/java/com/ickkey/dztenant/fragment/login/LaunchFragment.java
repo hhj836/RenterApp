@@ -25,6 +25,7 @@ import com.ickkey.dztenant.net.Urls;
 import com.ickkey.dztenant.net.request.GetAppVersionReq;
 import com.ickkey.dztenant.net.request.LoginReq;
 import com.ickkey.dztenant.net.response.GetAppVersionResp;
+import com.ickkey.dztenant.net.response.GetLocksResp;
 import com.ickkey.dztenant.net.response.LoginResponse;
 import com.ickkey.dztenant.service.DownloadApkService;
 import com.ickkey.dztenant.utils.DialogUtils;
@@ -70,6 +71,8 @@ public class LaunchFragment extends BaseFragment {
         AlertDialog dialog=  DialogUtils.showDialog(_mActivity, R.layout.dialog_version, false, new DialogUtils.CustomizeAction() {
             @Override
             public void setCustomizeAction(final AlertDialog dialog, View view) {
+                TextView tv_title= (TextView) view.findViewById(R.id.tv_title);
+                tv_title.setText("新版本"+getAppVersionResp.msg.androidVersion);
                 ListView info_list= (ListView) view.findViewById(R.id.info_list);
                 info_list.setAdapter(new UpdateAdapter(getAppVersionResp.msg.androidNotes));
 

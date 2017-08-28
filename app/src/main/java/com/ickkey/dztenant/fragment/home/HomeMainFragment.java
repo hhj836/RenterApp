@@ -89,13 +89,13 @@ public class HomeMainFragment extends BaseFragment {
                 GetLocksResp  getLocksResp=new GetLocksResp();
                 GetLocksResp.LockItem item=getLocksResp.new LockItem();
                 item.isOnlie=1;
-                item.installAddress="虚拟门锁0"+(i+1);
+                item.roomNo="虚拟门锁0"+(i+1);
                 item.quantity=100;
                 defaultLocks.add(item);
             }
 
             fragmentPagerAdapter=new PagerAdapter(getChildFragmentManager(),defaultLocks);
-            lock_desc.setText(defaultLocks.get(0).installAddress);
+            lock_desc.setText(defaultLocks.get(0).roomNo);
             mViewPager.setOffscreenPageLimit(defaultLocks.size());
             mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
@@ -105,7 +105,7 @@ public class HomeMainFragment extends BaseFragment {
 
                 @Override
                 public void onPageSelected(int position) {
-                    lock_desc.setText(defaultLocks.get(position).installAddress);
+                    lock_desc.setText(defaultLocks.get(position).roomNo);
 
                 }
 
@@ -130,6 +130,7 @@ public class HomeMainFragment extends BaseFragment {
                 int index=getLocksResp.msg.indexOf(item);
                 if(mViewPager.getCurrentItem()==index){
                     tv_custom_pwd.setText(event.lockItem.isOnlie==HomeMainRoomLockFragment.LOCK_ONLINE?"自定义密码":"获取临时密码");
+                    lock_desc.setText(event.lockItem.roomNo);
                 }
                 getLocksResp.msg.remove(index);
                 getLocksResp.msg.add(index,event.lockItem);
@@ -150,7 +151,7 @@ public class HomeMainFragment extends BaseFragment {
                 getLocksResp= (GetLocksResp) obj;
                 if(getLocksResp.msg!=null&&getLocksResp.msg.size()>0){
                     fragmentPagerAdapter=new PagerAdapter(getChildFragmentManager(),getLocksResp.msg);
-                    lock_desc.setText(getLocksResp.msg.get(0).houseNumber);
+                    lock_desc.setText(getLocksResp.msg.get(0).roomNo);
                     tv_custom_pwd.setText(getLocksResp.msg.get(0).isOnlie==HomeMainRoomLockFragment.LOCK_ONLINE?"自定义密码":"获取临时密码");
                     mViewPager.setOffscreenPageLimit(getLocksResp.msg.size());
                     mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -161,7 +162,7 @@ public class HomeMainFragment extends BaseFragment {
 
                         @Override
                         public void onPageSelected(int position) {
-                            lock_desc.setText(getLocksResp.msg.get(position).houseNumber);
+                            lock_desc.setText(getLocksResp.msg.get(position).roomNo);
                             tv_custom_pwd.setText(getLocksResp.msg.get(position).isOnlie==HomeMainRoomLockFragment.LOCK_ONLINE?"自定义密码":"获取临时密码");
 
                         }
@@ -213,9 +214,12 @@ public class HomeMainFragment extends BaseFragment {
 
         }
     }
-    @OnClick({R.id.ll_custom_pwd})
+    @OnClick({R.id.ll_custom_pwd,R.id.ll_specification})
     public void onClick(final View v){
         switch (v.getId()){
+            case R.id.ll_specification:
+                homeFragment.start(LockInstructionFragment.newInstance(LockInstructionFragment.class));
+                break;
             case R.id.ll_custom_pwd:
                 if(RenterApp.getInstance().getUserInfo().isVisitor==0){
                     showToast("你未被授权门锁，无法自定义密码");
