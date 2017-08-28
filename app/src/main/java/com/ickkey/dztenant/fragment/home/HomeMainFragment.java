@@ -14,30 +14,35 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.ickkey.dztenant.BuildConfig;
 import com.ickkey.dztenant.R;
 import com.ickkey.dztenant.RenterApp;
 import com.ickkey.dztenant.base.BaseFragment;
+import com.ickkey.dztenant.event.LockRefreshEvent;
 import com.ickkey.dztenant.net.CommonResponseListener;
 import com.ickkey.dztenant.net.NetEngine;
 import com.ickkey.dztenant.net.Urls;
 import com.ickkey.dztenant.net.request.BaseRequest;
 import com.ickkey.dztenant.net.request.GetLocksPwdReq;
+import com.ickkey.dztenant.net.request.GetTempPwdReq;
+import com.ickkey.dztenant.net.response.GetAppVersionResp;
 import com.ickkey.dztenant.net.response.GetLocksPwdResp;
 import com.ickkey.dztenant.net.response.GetLocksResp;
+import com.ickkey.dztenant.net.response.GetTempPwdResp;
 import com.ickkey.dztenant.utils.DialogUtils;
-import com.ickkey.dztenant.utils.Json2ObjHelper;
-import com.ickkey.dztenant.utils.LogUtil;
-import com.ickkey.dztenant.utils.ToastUtils;
 import com.ickkey.dztenant.view.ScaleCircleNavigator;
 import com.ickkey.dztenant.view.pwdkeyboard.PopEnterPassword;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -58,12 +63,14 @@ public class HomeMainFragment extends BaseFragment {
     TextView   lock_desc;
     @BindView(R.id.ll_custom_pwd)
     LinearLayout ll_custom_pwd;
+    @BindView(R.id.tv_custom_pwd)
+    TextView   tv_custom_pwd;
 
     FragmentPagerAdapter  fragmentPagerAdapter;
     HomeFragment homeFragment;
      GetLocksResp getLocksResp;
     public List<GetLocksResp.LockItem> defaultLocks=new ArrayList<>();
-
+    public  final DateFormat datetimeDf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     public void setHomeFragment(HomeFragment homeFragment) {
         this.homeFragment = homeFragment;
     }
@@ -116,24 +123,24 @@ public class HomeMainFragment extends BaseFragment {
         }
 
     }
+    @Subscribe(threadMode = ThreadMode.MAIN) //在ui线程执行
+    public void onLockRefresh(LockRefreshEvent event) {
+        for(GetLocksResp.LockItem  item:getLocksResp.msg){
+            if(item.id==event.lockItem.id){
+                int index=getLocksResp.msg.indexOf(item);
+                if(mViewPager.getCurrentItem()==index){
+                    tv_custom_pwd.setText(event.lockItem.isOnlie==HomeMainRoomLockFragment.LOCK_ONLINE?"自定义密码":"获取临时密码");
+                }
+                getLocksResp.msg.remove(index);
+                getLocksResp.msg.add(index,event.lockItem);
+                break;
+            }
+
+        }
+    }
     public  void  getLocks(){
         DialogUtils.showProgressDialog(_mActivity);
         ll_custom_pwd.setClickable(false);
-
-       /* BaseRequest request=new BaseRequest();
-        request.userId= RenterApp.getInstance().getUserInfo().userId;
-        request.token=RenterApp.getInstance().getUserInfo().token;
-        NetEngine.getInstance().sendGetLocksRequest(_mActivity, new OnResponseListener<GetLocksResp>() {
-            @Override
-            public void onSucceed(GetLocksResp getLocksResp) {
-
-            }
-
-            @Override
-            public void onError(String errorMsg) {
-
-            }
-        },fragment_tag,request);*/
         BaseRequest request=new BaseRequest();
         request.userId= RenterApp.getInstance().getUserInfo().userId;
         request.token=RenterApp.getInstance().getUserInfo().token;
@@ -143,7 +150,8 @@ public class HomeMainFragment extends BaseFragment {
                 getLocksResp= (GetLocksResp) obj;
                 if(getLocksResp.msg!=null&&getLocksResp.msg.size()>0){
                     fragmentPagerAdapter=new PagerAdapter(getChildFragmentManager(),getLocksResp.msg);
-                    lock_desc.setText(getLocksResp.msg.get(0).installAddress);
+                    lock_desc.setText(getLocksResp.msg.get(0).houseNumber);
+                    tv_custom_pwd.setText(getLocksResp.msg.get(0).isOnlie==HomeMainRoomLockFragment.LOCK_ONLINE?"自定义密码":"获取临时密码");
                     mViewPager.setOffscreenPageLimit(getLocksResp.msg.size());
                     mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                         @Override
@@ -154,6 +162,7 @@ public class HomeMainFragment extends BaseFragment {
                         @Override
                         public void onPageSelected(int position) {
                             lock_desc.setText(getLocksResp.msg.get(position).houseNumber);
+                            tv_custom_pwd.setText(getLocksResp.msg.get(position).isOnlie==HomeMainRoomLockFragment.LOCK_ONLINE?"自定义密码":"获取临时密码");
 
                         }
 
@@ -205,66 +214,72 @@ public class HomeMainFragment extends BaseFragment {
         }
     }
     @OnClick({R.id.ll_custom_pwd})
-    public void onClick(View v){
+    public void onClick(final View v){
         switch (v.getId()){
             case R.id.ll_custom_pwd:
                 if(RenterApp.getInstance().getUserInfo().isVisitor==0){
                     showToast("你未被授权门锁，无法自定义密码");
                     return;
                 }
-                DialogUtils.showDialog(_mActivity, R.layout.dialog_uplockspwd_succeed, true, new DialogUtils.CustomizeAction() {
-                    @Override
-                    public void setCustomizeAction(final AlertDialog dialog, View view) {
-                        TextView btn_confirm= (TextView) view.findViewById(R.id.btn_confirm);
-                        TextView btn_cancel= (TextView) view.findViewById(R.id.btn_cancel);
-                        btn_cancel.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dialog.dismiss();
-                            }
-                        });
-                        btn_confirm.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                dialog.dismiss();
-                                setCustomPwd();
-
-                            }
-                        });
-                    }
-                });
-
-                 /* GetLocksPwdReq getLocksPwdReq=new GetLocksPwdReq();
-                    getLocksPwdReq.token=RenterApp.getInstance().getUserInfo().token;
-                    getLocksPwdReq.locksId=resp.msg.get(mViewPager.getCurrentItem()).id;
-                    getLocksPwdReq.userId=RenterApp.getInstance().getUserInfo().userId;
-                    NetEngine.getInstance().sendGetLocksPwdRequest(_mActivity,new CommonResponseListener<GetLocksPwdResp>(){
+                if(getLocksResp.msg.get(mViewPager.getCurrentItem()).isOnlie==HomeMainRoomLockFragment.LOCK_ONLINE){
+                    DialogUtils.showDialog(_mActivity, R.layout.dialog_uplockspwd_succeed, true, new DialogUtils.CustomizeAction() {
                         @Override
-                        public void onSucceed(GetLocksPwdResp getLocksPwdResp) {
-                            super.onSucceed(getLocksPwdResp);
-                            PopEnterPassword popEnterPassword = new PopEnterPassword(_mActivity, getLocksPwdResp.pwdId, new PopEnterPassword.onUpdateSucceedListener() {
+                        public void setCustomizeAction(final AlertDialog dialog, View view) {
+                            TextView btn_confirm= (TextView) view.findViewById(R.id.btn_confirm);
+                            TextView btn_cancel= (TextView) view.findViewById(R.id.btn_cancel);
+                            btn_cancel.setOnClickListener(new View.OnClickListener() {
                                 @Override
-                                public void onSucceed() {
-                                    DialogUtils.showDialog(_mActivity, R.layout.dialog_uplockspwd_succeed, true, new DialogUtils.CustomizeAction() {
-                                        @Override
-                                        public void setCustomizeAction(final AlertDialog dialog, View view) {
-                                                TextView btn_confirm= (TextView) view.findViewById(R.id.btn_confirm);
-                                            btn_confirm.setOnClickListener(new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View view) {
-                                                    dialog.dismiss();
-                                                }
-                                            });
-                                        }
-                                    });
+                                public void onClick(View v) {
+                                    dialog.dismiss();
                                 }
                             });
-                            popEnterPassword.showAtLocation(rootView,
-                                    Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+                            btn_confirm.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    dialog.dismiss();
+                                    setCustomPwd();
 
-
+                                }
+                            });
                         }
-                    },fragment_tag,getLocksPwdReq);*/
+                    });
+                }else {
+                    GetTempPwdReq getTempPwdReq=new GetTempPwdReq();
+                    getTempPwdReq.userId=RenterApp.getInstance().getUserInfo().userId;
+                    getTempPwdReq.locksId=getLocksResp.msg.get(mViewPager.getCurrentItem()).id;
+                    NetEngine.getInstance().getHttpResult(new CommonResponseListener<GetTempPwdResp>(){
+                        @Override
+                        public void onSucceed(final GetTempPwdResp getTempPwdResp) {
+                            super.onSucceed(getTempPwdResp);
+                            if(!TextUtils.isEmpty(getTempPwdResp.password)){
+                                DialogUtils.showDialog(_mActivity, R.layout.dialog_uplockspwd_succeed, true, new DialogUtils.CustomizeAction() {
+                                    @Override
+                                    public void setCustomizeAction(final AlertDialog dialog, View view) {
+                                        Date end=new Date(System.currentTimeMillis()+2*60*60*1000);
+                                        TextView tv_content= (TextView) view.findViewById(R.id.tv_content);
+                                        tv_content.setText("临时密码为："+getTempPwdResp.password+"，生效时间为"+
+                                                datetimeDf.format(new Date())+"到"+datetimeDf.format(end));
+                                        TextView btn_confirm= (TextView) view.findViewById(R.id.btn_confirm);
+                                        TextView btn_cancel= (TextView) view.findViewById(R.id.btn_cancel);
+                                        btn_cancel.setVisibility(View.GONE);
+                                        btn_confirm.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                dialog.dismiss();
+
+                                            }
+                                        });
+                                    }
+                                });
+
+
+
+                            }
+                        }
+                    }, Urls.GET_TEMP_PWD,GetTempPwdResp.class,_mActivity,getTempPwdReq);
+
+
+                }
                 break;
         }
     }

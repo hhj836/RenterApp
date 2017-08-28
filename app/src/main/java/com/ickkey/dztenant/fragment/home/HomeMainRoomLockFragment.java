@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.ickkey.dztenant.R;
 import com.ickkey.dztenant.RenterApp;
 import com.ickkey.dztenant.base.BaseFragment;
+import com.ickkey.dztenant.event.LockRefreshEvent;
 import com.ickkey.dztenant.net.CommonResponseListener;
 import com.ickkey.dztenant.net.NetEngine;
 import com.ickkey.dztenant.net.Urls;
@@ -23,6 +24,7 @@ import com.ickkey.dztenant.utils.LogUtil;
 import com.ickkey.dztenant.utils.ToastUtils;
 import com.ickkey.dztenant.view.RippleBackground;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -34,6 +36,8 @@ import butterknife.OnClick;
  */
 
 public class HomeMainRoomLockFragment extends BaseFragment {
+    public static  final int LOCK_ONLINE=1;
+    public static  final int LOCK_OFFLINE=0;
     @BindView(R.id.tv_electric)
     TextView tv_electric;
     @BindView(R.id.tv_status)
@@ -67,6 +71,9 @@ public class HomeMainRoomLockFragment extends BaseFragment {
                         if(getLocksIdResp.msg!=null){
                             lock=getLocksIdResp.msg;
                                     if(lock!=null){
+                                        LockRefreshEvent event=new LockRefreshEvent();
+                                        event.lockItem=lock;
+                                        EventBus.getDefault().post(event);
                                         showToast("刷新成功");
                                         rl_bg.setVisibility(View.VISIBLE);
                                         tv_electric.setText("电量"+lock.quantity+"%");
@@ -100,7 +107,7 @@ public class HomeMainRoomLockFragment extends BaseFragment {
         if(lock!=null){
             rl_bg.setVisibility(View.VISIBLE);
             tv_electric.setText("电量"+lock.quantity+"%");
-            if(lock.isOnlie==1){
+            if(lock.isOnlie==LOCK_ONLINE){
                 rl_bg.setBackgroundResource(R.drawable.circle_green);
                 waveView.startRippleAnimation();
                 tv_status.setText("正常");

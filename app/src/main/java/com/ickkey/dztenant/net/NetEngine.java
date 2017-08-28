@@ -6,6 +6,8 @@ import android.text.TextUtils;
 import com.ickkey.dztenant.RenterApp;
 import com.ickkey.dztenant.net.request.BaseRequest;
 import com.ickkey.dztenant.net.response.BaseResponse;
+import com.ickkey.dztenant.net.response.GetAppVersionResp;
+import com.ickkey.dztenant.net.response.GetLocksIdResp;
 import com.ickkey.dztenant.net.response.GetVerifyResp;
 import com.ickkey.dztenant.net.response.LoginResponse;
 import com.ickkey.dztenant.net.response.SearchLocksResp;
@@ -84,5 +86,4 @@ public class NetEngine extends BaseNetEngine {
     public void sendSearchLocksRequest(Context context, final OnResponseListener<SearchLocksResp> onResponseListener, String tag, BaseRequest...req){
         sendPostRequest(Urls.SEARCH_LOCK,context,SearchLocksResp.class,onResponseListener,tag,req);
     }
-
 }
