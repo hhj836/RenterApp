@@ -65,6 +65,8 @@ public class HomeMainFragment extends BaseFragment {
     LinearLayout ll_custom_pwd;
     @BindView(R.id.tv_custom_pwd)
     TextView   tv_custom_pwd;
+    @BindView(R.id.rl_nonet)
+    RelativeLayout   rl_nonet;
 
     FragmentPagerAdapter  fragmentPagerAdapter;
     HomeFragment homeFragment;
@@ -179,6 +181,12 @@ public class HomeMainFragment extends BaseFragment {
                 }
 
             }
+
+            @Override
+            public void onError(String errorMsg) {
+                super.onError(errorMsg);
+                rl_nonet.setVisibility(View.VISIBLE);
+            }
         }, Urls.GET_LOCKS,GetLocksResp.class,_mActivity,request);
     }
 
@@ -214,9 +222,13 @@ public class HomeMainFragment extends BaseFragment {
 
         }
     }
-    @OnClick({R.id.ll_custom_pwd,R.id.ll_specification})
+    @OnClick({R.id.ll_custom_pwd,R.id.ll_specification,R.id.btn_reload})
     public void onClick(final View v){
         switch (v.getId()){
+            case R.id.btn_reload:
+                rl_nonet.setVisibility(View.GONE);
+                getLocks();
+                break;
             case R.id.ll_specification:
                 homeFragment.start(LockInstructionFragment.newInstance(LockInstructionFragment.class));
                 break;

@@ -85,4 +85,58 @@
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/rl_nonet"
+        android:background="@color/global_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_marginTop="80dp"
+            android:layout_centerHorizontal="true"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/rf_hasnotnet_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textColor="@color/global_black"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center_horizontal"
+                android:text="网络请求失败"
+                android:textSize="15sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textColor="@color/global_black"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center_horizontal"
+                android:text="您的网络好像不给力请稍后再试"
+                android:textSize="15sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/btn_reload"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/global_tv_color"
+                android:padding="5dp"
+                android:textSize="15sp"
+                android:text="重新加载"
+                android:background="@drawable/shape_reload_btn_bg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+
+
+
+
+
+
+    </RelativeLayout>
 </RelativeLayout>
