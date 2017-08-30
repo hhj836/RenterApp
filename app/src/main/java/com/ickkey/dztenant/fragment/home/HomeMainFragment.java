@@ -159,7 +159,6 @@ public class HomeMainFragment extends BaseFragment {
                     mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                         @Override
                         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
                         }
 
                         @Override
