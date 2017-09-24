@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v4.app.FragmentationHack;
 
+import com.ickkey.dztenant.BuildConfig;
 import com.ickkey.dztenant.R;
 import com.ickkey.dztenant.RenterApp;
 import com.ickkey.dztenant.event.LoginOutEvent;
@@ -17,6 +18,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import me.yokeyword.fragmentation.Fragmentation;
 import me.yokeyword.fragmentation.ISupportFragment;
 import me.yokeyword.fragmentation.SupportActivity;
 import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator;
@@ -31,6 +33,7 @@ public class MainActivity extends SupportActivity {
         loadRootFragment(R.id.fl_container, LaunchFragment.newInstance(LaunchFragment.class));
         RenterApp.getInstance().set_mActivity(MainActivity.this);
 
+
     }
 
 
@@ -39,6 +42,10 @@ public class MainActivity extends SupportActivity {
             if(RenterApp.getInstance().fragmentMap.get(HomeFragment.class)!=null){
                 LoginFragment loginFragment= RenterApp.getInstance().fragmentMap.get(HomeFragment.class).findFragment(LoginFragment.class);
                 RenterApp.getInstance().fragmentMap.get(HomeFragment.class).start(loginFragment==null?LoginFragment.newInstance(LoginFragment.class):loginFragment, ISupportFragment.SINGLETASK);
+                if(findFragment(HomeFragment.class)!=null){
+                    HomeFragment fragment=findFragment(HomeFragment.class);
+                    fragment.getFragmentManager().beginTransaction().remove(fragment).commitAllowingStateLoss();
+                }
                 RenterApp.getInstance().logOut();
 
 

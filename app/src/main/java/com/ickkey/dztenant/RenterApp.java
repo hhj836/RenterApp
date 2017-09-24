@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import me.yokeyword.fragmentation.Fragmentation;
 import me.yokeyword.fragmentation.ISupportActivity;
 import me.yokeyword.fragmentation.SupportActivity;
 
@@ -72,6 +73,13 @@ public class RenterApp extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        if(BuildConfig.DEBUG){
+            // 栈视图等功能，建议在Application里初始化
+            Fragmentation.builder()
+                    // 显示悬浮球 ; 其他Mode:SHAKE: 摇一摇唤出   NONE：隐藏
+                    .stackViewMode(Fragmentation.BUBBLE)
+                    .debug(BuildConfig.DEBUG).install();
+        }
         instance=this;
         aCache=ACache.get(getInstance());
         CrashHandler.getInstance().init(getApplicationContext());

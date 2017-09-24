@@ -95,6 +95,7 @@ public abstract class BaseFragment extends BaseBackFragment {
         if(!event.tag.equals(fragment_tag)){
             return;
         }
+
         handleTransactionEvent(event);
     }
     private void handleTransactionEvent(TransactionEvent event){
@@ -105,7 +106,7 @@ public abstract class BaseFragment extends BaseBackFragment {
                 pop();
             }else {
                 if(event.toFragment!=null){
-                    startWithPop(event.toFragment);
+                    super.startWithPop(event.toFragment);
                 }
             }
 
@@ -236,8 +237,14 @@ public abstract class BaseFragment extends BaseBackFragment {
     public void onResume() {
         super.onResume();
         if(mTransactionEvent!=null){
-            handleTransactionEvent(mTransactionEvent);
-            mTransactionEvent=null;
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    handleTransactionEvent(mTransactionEvent);
+                    mTransactionEvent=null;
+                }
+            },300);
+
         }
     }
 
