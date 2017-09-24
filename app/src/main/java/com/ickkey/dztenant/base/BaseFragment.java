@@ -17,6 +17,7 @@ import com.andexert.library.RippleView;
 import com.ickkey.dztenant.ConstantValues;
 import com.ickkey.dztenant.R;
 import com.ickkey.dztenant.RenterApp;
+import com.ickkey.dztenant.event.TransactionEvent;
 import com.ickkey.dztenant.fragment.gesture.CreateGestureFragment;
 import com.ickkey.dztenant.fragment.gesture.GestureLoginFragment;
 import com.ickkey.dztenant.fragment.gesture.LoginPwdCheckFragment;
@@ -26,6 +27,10 @@ import com.ickkey.dztenant.fragment.login.LoginFragment;
 import com.ickkey.dztenant.net.HttpRequestUtils;
 import com.ickkey.dztenant.utils.LogUtil;
 import com.ickkey.dztenant.utils.ToastUtils;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -49,7 +54,6 @@ import me.yokeyword.fragmentation.anim.FragmentAnimator;
 public abstract class BaseFragment extends BaseBackFragment {
     public Handler handler= RenterApp.getInstance().getMainThreadHandler();
     public final String fragment_tag=getClass().getSimpleName()+ UUID.randomUUID();
-    private boolean isPop;
 
 
 
@@ -85,31 +89,56 @@ public abstract class BaseFragment extends BaseBackFragment {
     RelativeLayout rl_title_base;
     FrameLayout fm_content_base;
 
+    TransactionEvent mTransactionEvent;
+    @Subscribe(sticky = true,threadMode= ThreadMode.MAIN) // sticky事件可以保证即使Activity被强杀，也会在恢复后拿到数据
+    public void onEvent(TransactionEvent event) {
+        if(!event.tag.equals(fragment_tag)){
+            return;
+        }
+        handleTransactionEvent(event);
+    }
+    private void handleTransactionEvent(TransactionEvent event){
+        if (FragmentationHack.isStateSaved(getFragmentManager())) {
+            mTransactionEvent = event;
+        } else {
+            if(event.eventType==TransactionEvent.TYPE_POP){
+                pop();
+            }else {
+                if(event.toFragment!=null){
+                    startWithPop(event.toFragment);
+                }
+            }
+
+        }
+    }
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        EventBus.getDefault().register(BaseFragment.this);
         View view=inflater.inflate(R.layout.fm_base,null);
         btn_left_base= (RippleView) view.findViewById(R.id.btn_left_base);
         btn_left_base.setOnRippleCompleteListener(new RippleView.OnRippleCompleteListener() {
             @Override
             public void onComplete(RippleView rippleView) {
-               pop();
+                TransactionEvent event=new TransactionEvent(fragment_tag);
+                EventBus.getDefault().post(event);
+
             }
 
         });
-        btn_right_base= (RippleView) view.findViewById(R.id.btn_right_base);
+        btn_right_base= view.findViewById(R.id.btn_right_base);
         btn_right_base.setVisibility(View.INVISIBLE);
-        tv_left_base= (TextView) view.findViewById(R.id.tv_left_base);
-        tv_right_base= (TextView) view.findViewById(R.id.tv_right_base);
-        rl_title_base= (RelativeLayout) view.findViewById(R.id.rl_title_base);
-        rl_title_content_base= (RelativeLayout) view.findViewById(R.id.rl_title_content_base);
-        fm_content_base= (FrameLayout) view.findViewById(R.id.fm_content_base);
+        tv_left_base=  view.findViewById(R.id.tv_left_base);
+        tv_right_base=  view.findViewById(R.id.tv_right_base);
+        rl_title_base=  view.findViewById(R.id.rl_title_base);
+        rl_title_content_base=  view.findViewById(R.id.rl_title_content_base);
+        fm_content_base=  view.findViewById(R.id.fm_content_base);
         if(getTitleContentResId()!=0){
             View titleContent=getActivity().getLayoutInflater().inflate(getTitleContentResId(),null);
             rl_title_content_base.removeAllViews();
             rl_title_content_base.addView(titleContent);
         }else {
-            tv_title_base= (TextView) view.findViewById(R.id.tv_title_base);
+            tv_title_base= view.findViewById(R.id.tv_title_base);
         }
         if(getLayoutId()!=0){
             View content=getActivity().getLayoutInflater().inflate(getLayoutId(),null);
@@ -125,6 +154,7 @@ public abstract class BaseFragment extends BaseBackFragment {
         btn_right_base.setOnRippleCompleteListener(new RippleView.OnRippleCompleteListener() {
             @Override
             public void onComplete(RippleView rippleView) {
+                //解决ui闪烁问题
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -205,62 +235,28 @@ public abstract class BaseFragment extends BaseBackFragment {
     @Override
     public void onResume() {
         super.onResume();
-
+        if(mTransactionEvent!=null){
+            handleTransactionEvent(mTransactionEvent);
+            mTransactionEvent=null;
+        }
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
+    public void startWithPop(ISupportFragment toFragment) {
+        TransactionEvent event=new TransactionEvent(fragment_tag);
+        event.toFragment=toFragment;
+        event.eventType=TransactionEvent.TYPE_START_AND_POP;
+        EventBus.getDefault().post(event);
     }
 
     @Override
     public void onDestroyView() {
+        EventBus.getDefault().unregister(BaseFragment.this);
         HttpRequestUtils.getInstance().getRequestQueue().cancelAll(fragment_tag);
         LogUtil.info(getClass(),"onDestroyView");
-        isPop=true;
         super.onDestroyView();
         RenterApp.getInstance().removeFragment(BaseFragment.this);
 
     }
 
-    @Override
-    public void pop() {
-        isPop=true;
-        super.pop();
-
-
-    }
-    @Override
-    public void startWithPop(final ISupportFragment toFragment) {
-        if(FragmentationHack.isStateSaved(getFragmentManager())){
-            new Thread(){
-                @Override
-                public void run() {
-                    while (FragmentationHack.isStateSaved(getFragmentManager())&&!isPop){
-                        try {
-                            Thread.sleep(100);
-                            LogUtil.info(getClass(),"startWithPop---sleep---");
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            if(!isPop){
-                                BaseFragment.this.getSupportDelegate().startWithPop(toFragment);
-                            }
-
-                        }
-                    });
-                }
-            }.start();
-
-        }else {
-            super.startWithPop(toFragment);
-        }
-
-
-    }
 }

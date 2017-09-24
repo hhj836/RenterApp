@@ -5,7 +5,7 @@ def releaseTime() {
 }
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 26
     buildToolsVersion "25.0.3"
     defaultConfig {
         applicationId "com.ickkey.dztenant"
@@ -103,7 +103,7 @@ dependencies {
     apt 'com.jakewharton:butterknife-compiler:8.0.1'
     compile 'com.mcxiaoke.volley:library:1.0.19'
     //fragment框架
-    compile 'me.yokeyword:fragmentation:1.0.8'
+    compile 'me.yokeyword:fragmentation:1.1.6'
     compile 'me.yokeyword:fragmentation-swipeback:1.0.8'
     //ripple
     compile 'com.github.traex.rippleeffect:library:1.3'

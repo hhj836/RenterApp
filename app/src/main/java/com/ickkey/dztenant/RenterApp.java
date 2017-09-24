@@ -92,9 +92,11 @@ public class RenterApp extends MultiDexApplication {
                     LogUtil.info(getClass(), mFinalCount +"说明从后台回到了前台");
                     LogUtil.info(getClass(), _mActivity +"=_mActivity"+"=isShowGesture="+isShowGesture()+"=" + "userInfo=="+userInfo);
                     if(_mActivity!=null&&isShowGesture()&&!TextUtils.isEmpty(getPwd())){
-                        Intent intent=new Intent();
-                        intent.setClass(_mActivity, GestureLoginActivity.class);
-                        _mActivity.startActivity(intent);
+                                Intent intent=new Intent();
+                                intent.setClass(_mActivity, GestureLoginActivity.class);
+                                _mActivity.startActivity(intent);
+                                LogUtil.info(getClass(), "打开----GestureLoginActivity");
+
                     }
                 }
             }

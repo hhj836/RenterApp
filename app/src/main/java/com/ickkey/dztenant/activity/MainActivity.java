@@ -33,33 +33,14 @@ public class MainActivity extends SupportActivity {
 
     }
 
+
     @Subscribe(threadMode = ThreadMode.MAIN) //在ui线程执行
     public void onLoginOut(LoginOutEvent event) {
-
             if(RenterApp.getInstance().fragmentMap.get(HomeFragment.class)!=null){
-                new Thread(){
-                    @Override
-                    public void run() {
+                LoginFragment loginFragment= RenterApp.getInstance().fragmentMap.get(HomeFragment.class).findFragment(LoginFragment.class);
+                RenterApp.getInstance().fragmentMap.get(HomeFragment.class).start(loginFragment==null?LoginFragment.newInstance(LoginFragment.class):loginFragment, ISupportFragment.SINGLETASK);
+                RenterApp.getInstance().logOut();
 
-                        while (FragmentationHack.isStateSaved(RenterApp.getInstance().fragmentMap.get(HomeFragment.class).getFragmentManager())){
-                            LogUtil.info(getClass(),"isStateSaved---");
-                            try {
-                                Thread.sleep(100);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-                        RenterApp.getInstance().getMainThreadHandler().post(new Runnable() {
-                            @Override
-                            public void run() {
-                                LoginFragment loginFragment= RenterApp.getInstance().fragmentMap.get(HomeFragment.class).findFragment(LoginFragment.class);
-                                RenterApp.getInstance().fragmentMap.get(HomeFragment.class).start(loginFragment==null?LoginFragment.newInstance(LoginFragment.class):loginFragment, ISupportFragment.SINGLETASK);
-                                RenterApp.getInstance().logOut();
-                            }
-                        });
-                    }
-                }.start();
 
             }
 
